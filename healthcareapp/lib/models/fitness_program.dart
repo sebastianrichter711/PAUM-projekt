@@ -22,6 +22,6 @@ class FitnessProgram{
 }
 
 final List<FitnessProgram> fitnessPrograms = [
-  FitnessProgram(image: AssetImage('assets/running.jpg'), name: 'Cardio', cals: '220kcal', time: '20min', type: ProgramType.cardio),
-  FitnessProgram(image: AssetImage('assets/weights.jpg'), name: 'Barbel Arm Lift', cals: '220kcal', time: '20min', type: ProgramType.lift)
+  FitnessProgram(image: const AssetImage('assets/running.jpg'), name: 'Cardio', cals: '220kcal', time: '20min', type: ProgramType.cardio),
+  FitnessProgram(image: const AssetImage('assets/weights.jpg'), name: 'Barbel Arm Lift', cals: '220kcal', time: '20min', type: ProgramType.lift)
 ];

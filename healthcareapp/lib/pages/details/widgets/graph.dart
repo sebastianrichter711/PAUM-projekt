@@ -2,14 +2,13 @@
 import 'dart:math';
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 
 class Graph extends StatelessWidget {
   const Graph({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
+    return const Expanded(
       child: SizedBox(
         width: double.infinity,
         child: GraphArea(),
@@ -42,7 +41,7 @@ class _GraphAreaState extends State<GraphArea> with SingleTickerProviderStateMix
   @override
   void initState() {
     super.initState();
-    _animationController = AnimationController(vsync: this, duration: Duration(milliseconds: 2500));
+    _animationController = AnimationController(vsync: this, duration: const Duration(milliseconds: 2500));
     _animationController.forward();
   }
 
@@ -72,18 +71,15 @@ class GraphPainter extends CustomPainter {
 
 
   GraphPainter(Animation<double> animation,  {required this.data}):_size = Tween<double>(begin:0, end:1).animate(
-    CurvedAnimation(parent: animation, curve: Interval(0.0,0.75, curve: Curves.easeInOutCubicEmphasized))),
+    CurvedAnimation(parent: animation, curve: const Interval(0.0,0.75, curve: Curves.easeInOutCubicEmphasized))),
     _dotSize = Tween<double>(begin:0, end:1).animate(
-    CurvedAnimation(parent: animation, curve: Interval(0.75,1, curve: Curves.easeInOutCubicEmphasized))),
+    CurvedAnimation(parent: animation, curve: const Interval(0.75,1, curve: Curves.easeInOutCubicEmphasized))),
   super(repaint: animation);
 
   @override
   void paint(Canvas canvas, Size size) {
     var xSpacing = size.width / (data.length -1 );
     var maxSteps = data.fold<DataPoint>(data[0], (p, c) => p.steps > c.steps ? p : c).steps;
-
-    print(xSpacing);
-    print(maxSteps);
 
    var yRatio = size.height / maxSteps;
    var curveOffset = xSpacing*0.3;
@@ -99,19 +95,19 @@ class GraphPainter extends CustomPainter {
    }
 
    Paint linePaint = Paint()
-   ..color = Color(0xff30c3f9)
+   ..color = const Color(0xff30c3f9)
    ..style = PaintingStyle.stroke
    ..strokeWidth = 3.0;
 
   Paint shadowPaint = Paint()
    ..color = Colors.white
    ..style = PaintingStyle.stroke
-   ..maskFilter = ui.MaskFilter.blur(ui.BlurStyle.solid, 3)
+   ..maskFilter = const ui.MaskFilter.blur(ui.BlurStyle.solid, 3)
    ..strokeWidth = 3.0;
 
    Paint fillPaint = Paint()
    ..shader = ui.Gradient.linear(Offset(size.width/2,0), Offset(size.width/2,size.height), [
-    Color(0xff30c3f9),
+    const Color(0xff30c3f9),
     Colors.white
    ],
    )
@@ -120,7 +116,7 @@ class GraphPainter extends CustomPainter {
 
 
    Paint dotOutlinePaint = Paint() .. color = Colors.white.withAlpha(200)..strokeWidth = 8;
-   Paint dotCenter = Paint() .. color = Color(0xff30c3f9) ..strokeWidth = 8;
+   Paint dotCenter = Paint() .. color = const Color(0xff30c3f9) ..strokeWidth = 8;
 
 
    Path linePath  = Path();
@@ -153,8 +149,8 @@ class GraphPainter extends CustomPainter {
   }
 
   @override
-  bool shouldRepaint(covariant CustomPainter oldDelegate) {
-      return true;
+  bool shouldRepaint(covariant GraphPainter oldDelegate) {
+      return data != oldDelegate.data;
   }
 
 }
