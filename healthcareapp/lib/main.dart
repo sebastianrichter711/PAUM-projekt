@@ -3,6 +3,8 @@ import 'package:flutter/services.dart';
 import 'package:healthcareapp/pages/details/details.dart';
 import 'package:healthcareapp/pages/home/home.dart';
 
+import 'pages/bmi/bmi.dart';
+
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
@@ -30,6 +32,7 @@ class MyApp extends StatelessWidget {
       routes: {
         '/': (context) => const HomePage(),
         '/details': (context) => const DetailsPage(),
+        '/bmi': (context) => const BmiPage(),
       },
       initialRoute: '/',
     );
