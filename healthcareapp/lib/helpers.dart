@@ -1,13 +1,13 @@
 import 'dart:math';
 
 final Map<int,String> daysOfWeek = {
-  1:"Mon",
-  2:"Tue",
-  3:"Wed",
-  4:"Thu",
-  5:"Fri",
-  6:"Sat",
-  7:"Sun",
+  1:"Pn",
+  2:"Wt",
+  3:"Śr",
+  4:"Cz",
+  5:"Pt",
+  6:"Sb",
+  7:"Nd",
 };
 
 int randBetween(int min, int max) {

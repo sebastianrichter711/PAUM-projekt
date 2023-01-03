@@ -46,7 +46,7 @@ class ActivityItem extends StatelessWidget {
     String activity = activities[Random().nextInt(activities.length)];
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).pushNamed('/details');
+        Navigator.of(context).pushNamed('/bmi');
       },
       child: Container(
         margin: const EdgeInsets.symmetric(vertical: 5),

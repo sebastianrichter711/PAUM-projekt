@@ -16,7 +16,7 @@ class Steps extends StatelessWidget {
       child: Column(
         children: [
           Text(steps, style: const TextStyle(fontSize: 33, fontWeight: FontWeight.w900)),
-          const Text('Total steps', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, height: 2))
+          const Text('Liczba kroków', style: TextStyle(fontSize: 11, fontWeight: FontWeight.w500, height: 2))
         ],
         ),
     );

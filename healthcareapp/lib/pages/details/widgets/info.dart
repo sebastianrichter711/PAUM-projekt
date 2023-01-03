@@ -9,9 +9,9 @@ class Info extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceAround,
       children: const [
-        Stats(value: '345', unit: 'kcal', label: 'Calories'),
-        Stats(value: '3.6', unit: 'km', label: 'Distance'),
-        Stats(value: '1.5', unit: 'hr', label: 'Hours'),
+        Stats(value: '345', unit: 'kcal', label: 'Kalorie'),
+        Stats(value: '3.6', unit: 'km', label: 'Odległość'),
+        Stats(value: '1.5', unit: 'h', label: 'Czas'),
 
       ],
     );

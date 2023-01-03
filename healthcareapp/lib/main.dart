@@ -2,12 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:healthcareapp/pages/details/details.dart';
 import 'package:healthcareapp/pages/home/home.dart';
+import 'package:health/health.dart';
+import 'package:permission_handler/permission_handler.dart';
+import 'dart:async';
 
 import 'pages/bmi/bmi.dart';
 
-void main() {
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
+  await Permission.activityRecognition.request();
+  await Permission.location.request();
   runApp(const MyApp());
 }
 
@@ -34,7 +39,7 @@ class MyApp extends StatelessWidget {
         '/details': (context) => const DetailsPage(),
         '/bmi': (context) => const BmiPage(),
       },
-      initialRoute: '/',
+      initialRoute: '/details',
     );
   }
 }
