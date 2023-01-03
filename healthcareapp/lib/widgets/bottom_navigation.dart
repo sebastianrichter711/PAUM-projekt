@@ -14,13 +14,13 @@ class BottomNavigation extends StatelessWidget {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-          const Icon(Icons.add_chart),
-          const Icon(Icons.search),
+          const Icon(Icons.analytics),
+          const Icon(Icons.fitness_center),
           Transform.translate(
             offset: const Offset(0,-15),
             child: GestureDetector(
               onTap: () {
-              // Navigator.of(context).pushReplacementNamed('/');
+                 Navigator.of(context).pushReplacementNamed('/details');
               }, 
               child: Container(
                 padding: const EdgeInsets.all(13),
@@ -45,10 +45,10 @@ class BottomNavigation extends StatelessWidget {
                 color:Colors.white)),
             ),
           ),
-          const Icon(Icons.date_range),
+          const Icon(Icons.bedtime),
           GestureDetector(
             onTap: () {
-              // Navigator.of(context).pushNamed('/details');
+              Navigator.of(context).pushNamed('/bmi');
             },
             child: const Icon(Icons.settings)
             ),
