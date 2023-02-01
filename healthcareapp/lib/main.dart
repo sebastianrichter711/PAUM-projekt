@@ -39,7 +39,7 @@ class MyApp extends StatelessWidget {
         '/': (context) => const HomePage(),
         '/details': (context) => const DetailsPage(),
         '/bmi': (context) => const BmiPage(),
-        '/activity-menu': (context) => const ActivityMenu(),
+        '/activity-page': (context) => const ActivityPage(),
       },
       initialRoute: '/details',
     );

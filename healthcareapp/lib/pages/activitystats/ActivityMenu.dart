@@ -1,6 +1,20 @@
 import 'package:flutter/material.dart';
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:healthcareapp/widgets/bottom_navigation.dart';
+
+class ActivityPage extends StatelessWidget {
+  const ActivityPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Column(
+        children: const [ActivityMenu(), BottomNavigation()],
+      ),
+    );
+  }
+}
 
 class ActivityMenu extends StatelessWidget {
   const ActivityMenu({super.key});
@@ -8,42 +22,36 @@ class ActivityMenu extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width - 80;
-    return Container(
-        color: Color(0xFFFFFFFF),
+    return Expanded(
         child: Center(
             child: Padding(
-          padding: const EdgeInsets.fromLTRB(0, 40, 0, 20),
-          child: Column(
-              mainAxisAlignment: MainAxisAlignment.spaceAround,
-              children: [
-                Column(children: [
-                  Text(
-                    'Aktywność',
-                    style: TextStyle(
-                      fontFamily: 'Manrope',
-                      fontWeight: FontWeight.bold,
-                      fontSize: 42,
-                      decoration: TextDecoration.none,
-                    ),
-                  ),
-                ]),
-                Wrap(
-                  runSpacing: 16,
-                  children: [
-                    modeButton('Kroki', 'Kroki', FontAwesomeIcons.shoePrints,
-                        Color(0xFFFE7F00), width),
-                    modeButton('Kalorie', 'Kalorie', FontAwesomeIcons.bolt,
-                        Color(0xFFFE7F00), width),
-                    modeButton(
-                        'Dystans',
-                        'Dystans',
-                        FontAwesomeIcons.personWalking,
-                        Color(0xFFFE7F00),
-                        width),
-                  ],
-                )
-              ]),
-        )));
+      padding: const EdgeInsets.fromLTRB(0, 40, 0, 20),
+      child:
+          Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+        Column(children: [
+          Text(
+            'Aktywność',
+            style: TextStyle(
+              fontFamily: 'Manrope',
+              fontWeight: FontWeight.bold,
+              fontSize: 42,
+              decoration: TextDecoration.none,
+            ),
+          ),
+        ]),
+        Wrap(
+          runSpacing: 16,
+          children: [
+            modeButton('Kroki', 'Kroki', FontAwesomeIcons.shoePrints,
+                Color(0xFFFE7F00), width),
+            modeButton('Kalorie', 'Kalorie', FontAwesomeIcons.bolt,
+                Color(0xFFFE7F00), width),
+            modeButton('Dystans', 'Dystans', FontAwesomeIcons.personWalking,
+                Color(0xFFFE7F00), width),
+          ],
+        )
+      ]),
+    )));
   }
 
   Padding circButton(IconData icon) {

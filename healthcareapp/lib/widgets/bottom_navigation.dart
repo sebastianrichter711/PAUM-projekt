@@ -16,7 +16,7 @@ class BottomNavigation extends StatelessWidget {
             children: [
               GestureDetector(
                   onTap: () {
-                    Navigator.of(context).pushNamed('/activity-menu');
+                    Navigator.of(context).pushNamed('/activity-page');
                   },
                   child: const Icon(Icons.analytics)),
               const Icon(Icons.fitness_center),
