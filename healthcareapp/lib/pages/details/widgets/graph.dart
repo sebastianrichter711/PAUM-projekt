@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'dart:ui' as ui;
 import 'package:flutter/material.dart';
+import 'package:health/health.dart';
 
 class Graph extends StatelessWidget {
   const Graph({super.key});
@@ -53,6 +54,7 @@ class _GraphAreaState extends State<GraphArea>
 
   @override
   Widget build(BuildContext context) {
+    //fetchStepData();
     return GestureDetector(
       onTap: () {
         _animationController.forward(from: 0.0);
@@ -62,6 +64,43 @@ class _GraphAreaState extends State<GraphArea>
       ),
     );
   }
+
+  // Future<void> fetchStepData() async {
+  //   List<int> listOfStepsFromWeek = []..length = 7;
+  //   int? steps = 0;
+
+  //   HealthFactory health = HealthFactory();
+
+  //   // get steps for today (i.e., since midnight)
+  //   final now = DateTime.now();
+
+  //   bool requested = await health.requestAuthorization([HealthDataType.STEPS]);
+
+  //   if (requested) {
+  //     int j = 0;
+  //     for (int i = 7; i >= 0; i--) {
+  //       final startDate = DateTime(now.year, now.month, now.day - i);
+  //       final endDate;
+  //       if (i != 0) {
+  //         endDate = DateTime(now.year, now.month, now.day - i + 1);
+  //       } else {
+  //         endDate = DateTime.now();
+  //       }
+  //       try {
+  //         steps = await health.getTotalStepsInInterval(startDate, endDate);
+  //       } catch (error) {
+  //         print("Caught exception in getTotalStepsInInterval: $error");
+  //       }
+  //       listOfStepsFromWeek[j] = steps!;
+  //       j += 1;
+  //     }
+  //     setState(() {
+  //       stepsWeekData = listOfStepsFromWeek;
+  //     });
+  //   } else {
+  //     print("Authorization not granted - error in authorization");
+  //   }
+  // }
 }
 
 class GraphPainter extends CustomPainter {
