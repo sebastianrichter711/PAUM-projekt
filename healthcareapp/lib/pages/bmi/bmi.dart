@@ -10,7 +10,11 @@ class BmiPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(home: BmiCalculator());
+    return Scaffold(
+      body: Column(
+        children: const [BmiCalculator(), BottomNavigation()],
+      ),
+    );
   }
 }
 
@@ -30,7 +34,7 @@ class _BmiCalculatorState extends State<BmiCalculator> {
   TextEditingController heightController = TextEditingController();
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return Expanded(
       child: Scaffold(
           appBar: AppBar(
               title: const Text(
