@@ -43,11 +43,11 @@ class ActivityMenu extends StatelessWidget {
           runSpacing: 16,
           children: [
             modeButton('Kroki', 'Kroki', FontAwesomeIcons.shoePrints,
-                Color(0xFFFE7F00), width),
+                Color(0xFFFE7F00), width, context),
             modeButton('Kalorie', 'Kalorie', FontAwesomeIcons.bolt,
-                Color(0xFFFE7F00), width),
+                Color(0xFFFE7F00), width, context),
             modeButton('Dystans', 'Dystans', FontAwesomeIcons.personWalking,
-                Color(0xFFFE7F00), width),
+                Color(0xFFFE7F00), width, context),
           ],
         )
       ]),
@@ -66,9 +66,24 @@ class ActivityMenu extends StatelessWidget {
     );
   }
 
-  GestureDetector modeButton(
-      String title, String subtitle, IconData icon, Color color, double width) {
+  GestureDetector modeButton(String title, String subtitle, IconData icon,
+      Color color, double width, BuildContext context) {
+    String nextPage = "";
+    switch (title) {
+      case "Kroki":
+        nextPage = '/steps';
+        break;
+      case "Kalorie":
+        nextPage = '/calories';
+        break;
+      case "Dystans":
+        nextPage = '/distance';
+        break;
+    }
     return GestureDetector(
+        onTap: () {
+          Navigator.of(context).pushNamed(nextPage);
+        },
         child: Container(
             width: width,
             decoration: BoxDecoration(

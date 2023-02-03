@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:healthcareapp/pages/activitystats/ActivityMenu.dart';
+import 'package:healthcareapp/pages/activitystats/DistancePage.dart';
+import 'package:healthcareapp/pages/activitystats/StepsPage.dart';
 import 'package:healthcareapp/pages/details/details.dart';
 import 'package:healthcareapp/pages/home/home.dart';
 import 'package:health/health.dart';
@@ -40,6 +42,8 @@ class MyApp extends StatelessWidget {
         '/details': (context) => const DetailsPage(),
         '/bmi': (context) => const BmiPage(),
         '/activity-page': (context) => const ActivityPage(),
+        '/steps': (context) => const StepsPage(),
+        '/distance': (context) => const DistancePage(),
       },
       initialRoute: '/details',
     );

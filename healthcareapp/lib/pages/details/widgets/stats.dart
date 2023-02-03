@@ -254,7 +254,6 @@ class InfoStat extends StatelessWidget {
         child: Stack(children: [
           StatIcon(
               icon: icon, iconColor: iconColor, iconBackground: iconBackground),
-          Change(time: time),
           Align(
             alignment: Alignment.bottomLeft,
             child: Column(
