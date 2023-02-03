@@ -1,6 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:health/health.dart';
+import 'package:intl/intl.dart';
 
 class LineChartWidget extends StatelessWidget {
   const LineChartWidget({super.key});
@@ -9,7 +10,8 @@ class LineChartWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Expanded(
       child: SizedBox(
-        width: double.infinity,
+        width: double.infinity - 1000,
+        height: double.infinity,
         child: LineChartDraw(),
       ),
     );
@@ -28,23 +30,69 @@ class _LineChartDrawState extends State<LineChartDraw> {
   @override
   Widget build(BuildContext context) {
     fetchStepData();
-    return AspectRatio(
-      aspectRatio: 5,
-      child: LineChart(LineChartData(
-          titlesData: FlTitlesData(
-            leftTitles: AxisTitles(sideTitles: SideTitles(showTitles: true)),
-            rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-            bottomTitles: AxisTitles(sideTitles: SideTitles(showTitles: true)),
-            topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-          ),
-          lineBarsData: [
-            LineChartBarData(
-                spots: points.map((point) => FlSpot(point.x, point.y)).toList(),
-                isCurved: true,
-                dotData: FlDotData(show: true))
-          ])),
-    );
+    return LineChart(LineChartData(
+        titlesData: FlTitlesData(
+          leftTitles: AxisTitles(
+              sideTitles: SideTitles(showTitles: true, reservedSize: 35)),
+          rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+          bottomTitles: AxisTitles(sideTitles: _bottomTitles),
+          topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+        ),
+        borderData: FlBorderData(
+          show: true,
+          border: Border.all(color: const Color(0xff37434d), width: 1),
+        ),
+        lineBarsData: [
+          LineChartBarData(
+              spots: points.map((point) => FlSpot(point.x, point.y)).toList(),
+              isCurved: true,
+              dotData: FlDotData(show: true))
+        ]));
   }
+
+  SideTitles get _bottomTitles => SideTitles(
+        showTitles: true,
+        reservedSize: 35,
+        getTitlesWidget: (value, meta) {
+          String text = '';
+          DateTime now = DateTime.now();
+          if (value % 2 != 0) {
+            return Text("");
+          } else {
+            switch (value.toInt()) {
+              case 0:
+                text =
+                    DateFormat('EEEE').format(now.subtract(Duration(days: 6)));
+                break;
+              case 1:
+                text =
+                    DateFormat('EEEE').format(now.subtract(Duration(days: 5)));
+                break;
+              case 2:
+                text =
+                    DateFormat('EEEE').format(now.subtract(Duration(days: 4)));
+                break;
+              case 3:
+                text =
+                    DateFormat('EEEE').format(now.subtract(Duration(days: 3)));
+                break;
+              case 4:
+                text =
+                    DateFormat('EEEE').format(now.subtract(Duration(days: 2)));
+                break;
+              case 5:
+                text =
+                    DateFormat('EEEE').format(now.subtract(Duration(days: 1)));
+                break;
+              case 6:
+                text = DateFormat('EEEE').format(now);
+                break;
+            }
+
+            return Text(text);
+          }
+        },
+      );
 
   Future<void> fetchStepData() async {
     List<Point> listOfSteps = [];

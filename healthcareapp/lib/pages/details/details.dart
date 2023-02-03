@@ -21,6 +21,7 @@ class DetailsPage extends StatelessWidget {
           Dates(),
           Steps(),
           LineChartWidget(),
+          Divider(height: 30),
           Info(),
           Divider(height: 30),
           Stats(),
