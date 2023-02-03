@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:healthcareapp/pages/activitystats/ActivityMenu.dart';
+import 'package:healthcareapp/pages/activitystats/CaloriesPage.dart';
 import 'package:healthcareapp/pages/activitystats/DistancePage.dart';
 import 'package:healthcareapp/pages/activitystats/StepsPage.dart';
 import 'package:healthcareapp/pages/details/details.dart';
@@ -14,8 +15,8 @@ import 'pages/bmi/bmi.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
-  //await Permission.activityRecognition.request();
-  //await Permission.location.request();
+  await Permission.activityRecognition.request();
+  await Permission.location.request();
   runApp(const MyApp());
 }
 
@@ -24,6 +25,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    HealthFactory healthFactory = HealthFactory();
     return MaterialApp(
       title: "Health Care App",
       theme: ThemeData(
@@ -44,6 +46,7 @@ class MyApp extends StatelessWidget {
         '/activity-page': (context) => const ActivityPage(),
         '/steps': (context) => const StepsPage(),
         '/distance': (context) => const DistancePage(),
+        '/calories': (context) => CaloriesPage(health: healthFactory),
       },
       initialRoute: '/details',
     );

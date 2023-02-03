@@ -10,8 +10,7 @@ class LineChartWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return const Expanded(
       child: SizedBox(
-        width: double.infinity - 1000,
-        height: double.infinity,
+        width: double.infinity,
         child: LineChartDraw(),
       ),
     );
@@ -30,24 +29,28 @@ class _LineChartDrawState extends State<LineChartDraw> {
   @override
   Widget build(BuildContext context) {
     fetchStepData();
-    return LineChart(LineChartData(
-        titlesData: FlTitlesData(
-          leftTitles: AxisTitles(
-              sideTitles: SideTitles(showTitles: true, reservedSize: 35)),
-          rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-          bottomTitles: AxisTitles(sideTitles: _bottomTitles),
-          topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-        ),
-        borderData: FlBorderData(
-          show: true,
-          border: Border.all(color: const Color(0xff37434d), width: 1),
-        ),
-        lineBarsData: [
-          LineChartBarData(
-              spots: points.map((point) => FlSpot(point.x, point.y)).toList(),
-              isCurved: true,
-              dotData: FlDotData(show: true))
-        ]));
+    return SizedBox(
+      height: double.infinity,
+      child: LineChart(LineChartData(
+          titlesData: FlTitlesData(
+            leftTitles: AxisTitles(
+                sideTitles: SideTitles(showTitles: true, reservedSize: 35)),
+            rightTitles: AxisTitles(
+                sideTitles: SideTitles(showTitles: false, reservedSize: 35)),
+            bottomTitles: AxisTitles(sideTitles: _bottomTitles),
+            topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+          ),
+          borderData: FlBorderData(
+            show: true,
+            border: Border.all(color: const Color(0xff37434d), width: 1),
+          ),
+          lineBarsData: [
+            LineChartBarData(
+                spots: points.map((point) => FlSpot(point.x, point.y)).toList(),
+                isCurved: true,
+                dotData: FlDotData(show: true))
+          ])),
+    );
   }
 
   String polishWeekday(String engWeekDay) {
