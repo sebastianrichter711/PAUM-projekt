@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:healthcareapp/pages/details/widgets/appbar.dart';
+import 'package:healthcareapp/pages/details/widgets/chart/lineChart.dart';
 import 'package:healthcareapp/pages/details/widgets/dates.dart';
 import 'package:healthcareapp/pages/details/widgets/graph.dart';
 import 'package:healthcareapp/pages/details/widgets/info.dart' hide Stats;
@@ -14,12 +15,12 @@ class DetailsPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: MainAppBar(appBar:AppBar()),
-      body:Column(
+      appBar: MainAppBar(appBar: AppBar()),
+      body: Column(
         children: const [
           Dates(),
           Steps(),
-          Graph(),
+          LineChartWidget(),
           Info(),
           Divider(height: 30),
           Stats(),
@@ -30,4 +31,3 @@ class DetailsPage extends StatelessWidget {
     );
   }
 }
-
