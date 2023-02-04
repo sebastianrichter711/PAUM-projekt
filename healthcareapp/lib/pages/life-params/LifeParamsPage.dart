@@ -1,24 +1,37 @@
+import 'package:flutter/src/widgets/container.dart';
+import 'package:flutter/src/widgets/framework.dart';
+import 'package:health/health.dart';
 import 'package:flutter/material.dart';
-
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:healthcareapp/widgets/bottom_navigation.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
-class ActivityPage extends StatelessWidget {
-  const ActivityPage({super.key});
+class LifeParamsPage extends StatelessWidget {
+  final HealthFactory health;
+  const LifeParamsPage({super.key, required this.health});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
-        children: const [ActivityMenu(), BottomNavigation()],
+        children: [LifeParamsList(health: health), BottomNavigation()],
       ),
     );
   }
 }
 
-class ActivityMenu extends StatelessWidget {
-  const ActivityMenu({super.key});
+class LifeParamsList extends StatefulWidget {
+  final HealthFactory health;
+  LifeParamsList({super.key, required this.health});
 
+  @override
+  State<LifeParamsList> createState() => _LifeParamsListState();
+}
+
+class _LifeParamsListState extends State<LifeParamsList> {
+  int todaySteps = 0;
+  int weekSteps = 0;
+  double avgWeekSteps = 0.0;
+  int weekday = DateTime.now().weekday;
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width - 60;
@@ -30,7 +43,16 @@ class ActivityMenu extends StatelessWidget {
           Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
         Column(children: [
           Text(
-            'Aktywność',
+            'Parametry',
+            style: TextStyle(
+              fontFamily: 'Manrope',
+              fontWeight: FontWeight.bold,
+              fontSize: 42,
+              decoration: TextDecoration.none,
+            ),
+          ),
+          Text(
+            'życiowe',
             style: TextStyle(
               fontFamily: 'Manrope',
               fontWeight: FontWeight.bold,
@@ -42,12 +64,12 @@ class ActivityMenu extends StatelessWidget {
         Wrap(
           runSpacing: 16,
           children: [
-            modeButton('Kroki', 'Kroki', FontAwesomeIcons.shoePrints,
-                Color(0xFFFE7F00), width, context),
-            modeButton('Kalorie', 'Kalorie', FontAwesomeIcons.bolt,
-                Color(0xFFFE7F00), width, context),
-            modeButton('Dystans', 'Dystans', FontAwesomeIcons.personWalking,
-                Color(0xFFFE7F00), width, context),
+            modeButton("Tętno", "", Icons.favorite_outline, Color(0xFF008000),
+                width, 24),
+            modeButton("Ciśnienie krwi", "", Icons.bloodtype, Color(0xFF008000),
+                width, 24),
+            modeButton("Temperatura ciała", "ciała", Icons.device_thermostat,
+                Color(0xFF008000), width, 20),
           ],
         )
       ]),
@@ -67,17 +89,17 @@ class ActivityMenu extends StatelessWidget {
   }
 
   GestureDetector modeButton(String title, String subtitle, IconData icon,
-      Color color, double width, BuildContext context) {
+      Color color, double width, double fontSize) {
     String nextPage = "";
     switch (title) {
-      case "Kroki":
-        nextPage = '/steps';
+      case "Tętno":
+        nextPage = '/pulse';
         break;
-      case "Kalorie":
-        nextPage = '/calories';
+      case "Ciśnienie krwi":
+        nextPage = '/blood-pressure';
         break;
-      case "Dystans":
-        nextPage = '/distance';
+      case "Temperatura ciała":
+        nextPage = '/body-temperature';
         break;
     }
     return GestureDetector(
@@ -104,7 +126,7 @@ class ActivityMenu extends StatelessWidget {
                               decoration: TextDecoration.none,
                               fontFamily: 'Manrope',
                               color: Colors.white,
-                              fontSize: 24,
+                              fontSize: fontSize,
                             )),
                       ],
                     ),
@@ -116,4 +138,34 @@ class ActivityMenu extends StatelessWidget {
                   )
                 ])));
   }
+
+  // Future fetchStepData() async {
+  //   int? steps;
+
+  //   // get steps for today (i.e., since midnight)
+  //   final now = DateTime.now();
+  //   final midnight = DateTime(now.year, now.month, now.day);
+
+  //   bool requested = await widget.health
+  //       .requestAuthorization([HealthWorkoutActivityType.WALKING]);
+
+  //   List<HealthWorkoutActivityType> types = [HealthWorkoutActivityType.WALKING];
+  //   if (requested) {
+  //     try {
+  //       await widget.health.getHealthDataFromTypes(midnight, now, types);
+  //     } catch (error) {
+  //       print("Caught exception in getTotalStepsInInterval: $error");
+  //     }
+
+  //     print('Total number of steps: $steps');
+
+  //     setState(() {
+  //       _nofSteps = (steps == null) ? 0 : steps;
+  //       _state = (steps == null) ? AppState.NO_DATA : AppState.STEPS_READY;
+  //     });
+  //   } else {
+  //     print("Authorization not granted - error in authorization");
+  //     setState(() => _state = AppState.DATA_NOT_FETCHED);
+  //   }
+  // }
 }

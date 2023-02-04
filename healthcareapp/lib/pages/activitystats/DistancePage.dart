@@ -33,7 +33,7 @@ class _DistancePageWidgetState extends State<DistancePageWidget> {
   Widget build(BuildContext context) {
     fetchTodayDistance();
     fetchWeekDistance();
-    double width = MediaQuery.of(context).size.width - 80;
+    double width = MediaQuery.of(context).size.width - 60;
     return Expanded(
         child: Center(
             child: Padding(

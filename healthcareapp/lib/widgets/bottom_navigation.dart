@@ -19,7 +19,11 @@ class BottomNavigation extends StatelessWidget {
                     Navigator.of(context).pushNamed('/activity-page');
                   },
                   child: const Icon(Icons.analytics)),
-              const Icon(Icons.fitness_center),
+              GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pushNamed('/life-params');
+                  },
+                  child: const Icon(Icons.health_and_safety)),
               Transform.translate(
                 offset: const Offset(0, -15),
                 child: GestureDetector(

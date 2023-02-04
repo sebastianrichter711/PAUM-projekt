@@ -70,7 +70,7 @@ class _StatsWidgetState extends State<StatsWidget> {
                     value: pulse + ' bpm'),
                 SizedBox(width: 15),
                 InfoStat(
-                  icon: Icons.bolt,
+                  icon: Icons.bloodtype,
                   iconColor: Color(0xffd3b50f),
                   iconBackground: Color(0xfffb4be4),
                   time: '+5s',
@@ -91,7 +91,7 @@ class _StatsWidgetState extends State<StatsWidget> {
 
     // get steps for today (i.e., since midnight)
     final now = DateTime.now();
-    final midnight = DateTime(now.year, now.month, now.day);
+    final midnight = DateTime(2022, 11, 1);
 
     final types = [HealthDataType.BODY_TEMPERATURE];
 
@@ -124,7 +124,7 @@ class _StatsWidgetState extends State<StatsWidget> {
 
     // get steps for today (i.e., since midnight)
     final now = DateTime.now();
-    final midnight = DateTime(now.year, now.month, now.day);
+    final midnight = DateTime(2022, 11, 1);
 
     final types = [HealthDataType.HEART_RATE];
 
@@ -160,7 +160,7 @@ class _StatsWidgetState extends State<StatsWidget> {
 
     // get steps for today (i.e., since midnight)
     final now = DateTime.now();
-    final midnight = DateTime(now.year, now.month, now.day);
+    final midnight = DateTime(2022, 11, 1);
 
     List<HealthDataType> types = [HealthDataType.BLOOD_PRESSURE_SYSTOLIC];
 

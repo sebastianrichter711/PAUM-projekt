@@ -13,12 +13,12 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.of(context).pop();
-          },
-          icon: const Icon(Icons.arrow_back_ios, color: Colors.black, size: 16),
-        ),
+        // leading: IconButton(
+        //   onPressed: () {
+        //     Navigator.of(context).pop();
+        //   },
+        //   icon: const Icon(Icons.arrow_back_ios, color: Colors.black, size: 16),
+        // ),
         title: const Text('FitApka',
             style: TextStyle(
               color: Colors.black,

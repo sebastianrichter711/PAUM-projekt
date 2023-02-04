@@ -35,7 +35,7 @@ class _CaloriesPageWidgetState extends State<CaloriesPageWidget> {
   Widget build(BuildContext context) {
     fetchTodayCalories();
     fetchWeekCalories();
-    double width = MediaQuery.of(context).size.width - 80;
+    double width = MediaQuery.of(context).size.width - 60;
     return Expanded(
         child: Center(
             child: Padding(

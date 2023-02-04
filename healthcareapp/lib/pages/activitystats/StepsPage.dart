@@ -33,7 +33,7 @@ class _StepsPageWidgetState extends State<StepsPageWidget> {
   Widget build(BuildContext context) {
     fetchTodaySteps();
     fetchWeekSteps();
-    double width = MediaQuery.of(context).size.width - 80;
+    double width = MediaQuery.of(context).size.width - 60;
     return Expanded(
         child: Center(
             child: Padding(

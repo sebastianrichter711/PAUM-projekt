@@ -7,6 +7,9 @@ import 'package:healthcareapp/pages/activitystats/StepsPage.dart';
 import 'package:healthcareapp/pages/details/details.dart';
 import 'package:healthcareapp/pages/home/home.dart';
 import 'package:health/health.dart';
+import 'package:healthcareapp/pages/life-params/LifeParamsPage.dart';
+import 'package:healthcareapp/pages/life-params/PulsePage.dart';
+import 'package:healthcareapp/pages/life-params/add/AddPulse.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'dart:async';
 
@@ -41,12 +44,15 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       routes: {
         '/': (context) => const HomePage(),
-        '/details': (context) => const DetailsPage(),
+        '/details': (context) => DetailsPage(health: healthFactory),
         '/bmi': (context) => const BmiPage(),
         '/activity-page': (context) => const ActivityPage(),
         '/steps': (context) => const StepsPage(),
         '/distance': (context) => const DistancePage(),
         '/calories': (context) => CaloriesPage(health: healthFactory),
+        '/life-params': (context) => LifeParamsPage(health: healthFactory),
+        '/pulse': (context) => PulsePage(health: healthFactory),
+        '/add-pulse': (context) => AddPulsePage(health: healthFactory),
       },
       initialRoute: '/details',
     );
