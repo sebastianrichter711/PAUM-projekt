@@ -73,7 +73,7 @@ class _AddPulseState extends State<AddPulse> {
                         style: TextButton.styleFrom(
                           backgroundColor: Colors.blue,
                         ),
-                        child: Text("Oblicz",
+                        child: Text("Dodaj",
                             style: TextStyle(color: Colors.white)),
                         onPressed: () {
                           setState(() {
@@ -110,6 +110,7 @@ class _AddPulseState extends State<AddPulse> {
   }
 
   Future<void> addPulseMeasurement(double height) async {
+    print("SIEMA");
     final types = [HealthDataType.HEART_RATE];
     final rights = [HealthDataAccess.WRITE];
     final permissions = [HealthDataAccess.READ_WRITE];
@@ -118,15 +119,14 @@ class _AddPulseState extends State<AddPulse> {
         await HealthFactory.hasPermissions(types, permissions: rights);
     if (hasPermissions == false) {
       await widget.health.requestAuthorization(types, permissions: permissions);
+    }
+    bool success = await widget.health.writeHealthData(
+        height, HealthDataType.HEART_RATE, DateTime.now(), DateTime.now());
 
-      bool success = await widget.health.writeHealthData(
-          height, HealthDataType.HEART_RATE, DateTime.now(), DateTime.now());
-
-      if (success == true)
-        print("added pulse");
-      else {
-        print("not added pulse");
-      }
+    if (success == true)
+      print("added pulse");
+    else {
+      print("not added pulse");
     }
   }
 }
