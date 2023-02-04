@@ -31,6 +31,8 @@ class _AddPulseState extends State<AddPulse> {
   String result = "";
   double height = 0;
   double weight = 0;
+  bool isAdded = false;
+  int flag = 0;
   TextEditingController weightController = TextEditingController();
   TextEditingController heightController = TextEditingController();
   @override
@@ -79,7 +81,37 @@ class _AddPulseState extends State<AddPulse> {
                           setState(() {
                             height = double.parse(heightController.value.text);
                           });
-                          addPulseMeasurement(height);
+                          addPulseMeasurement(height).then((bool result) {
+                            setState(() {
+                              isAdded = result;
+                              if (isAdded == true) {
+                                showDialog(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                            title: Text("Dodano pomiar pulsu"),
+                                            actions: [
+                                              TextButton(
+                                                child: Text("OK"),
+                                                onPressed: () =>
+                                                    Navigator.of(context)
+                                                        .pushNamed("/pulse"),
+                                              )
+                                            ]));
+                              } else {
+                                showDialog(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                            title: Text(
+                                                "Nie udało się dodać pomiaru"),
+                                            actions: [
+                                              TextButton(
+                                                  child: Text("OK"),
+                                                  onPressed: () =>
+                                                      Navigator.pop(context))
+                                            ]));
+                              }
+                            });
+                          });
                         },
                       ),
                     ),
@@ -109,8 +141,7 @@ class _AddPulseState extends State<AddPulse> {
     );
   }
 
-  Future<void> addPulseMeasurement(double height) async {
-    print("SIEMA");
+  Future<bool> addPulseMeasurement(double height) async {
     final types = [HealthDataType.HEART_RATE];
     final rights = [HealthDataAccess.WRITE];
     final permissions = [HealthDataAccess.READ_WRITE];
@@ -124,9 +155,9 @@ class _AddPulseState extends State<AddPulse> {
         height, HealthDataType.HEART_RATE, DateTime.now(), DateTime.now());
 
     if (success == true)
-      print("added pulse");
+      return true;
     else {
-      print("not added pulse");
+      return false;
     }
   }
 }
