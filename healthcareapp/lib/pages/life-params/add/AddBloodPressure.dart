@@ -4,29 +4,29 @@ import 'package:health/health.dart';
 import 'package:flutter/material.dart';
 import 'package:healthcareapp/widgets/bottom_navigation.dart';
 
-class AddPulsePage extends StatelessWidget {
+class AddBloodPressurePage extends StatelessWidget {
   final HealthFactory health;
-  const AddPulsePage({super.key, required this.health});
+  const AddBloodPressurePage({super.key, required this.health});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
-        children: [AddPulse(health: health), BottomNavigation()],
+        children: [AddBloodPressure(health: health), BottomNavigation()],
       ),
     );
   }
 }
 
-class AddPulse extends StatefulWidget {
+class AddBloodPressure extends StatefulWidget {
   final HealthFactory health;
-  AddPulse({super.key, required this.health});
+  AddBloodPressure({super.key, required this.health});
 
   @override
-  State<AddPulse> createState() => _AddPulseState();
+  State<AddBloodPressure> createState() => _AddBloodPressureState();
 }
 
-class _AddPulseState extends State<AddPulse> {
+class _AddBloodPressureState extends State<AddBloodPressure> {
   int currentIndex = 0;
   String result = "";
   double height = 0;
@@ -41,7 +41,7 @@ class _AddPulseState extends State<AddPulse> {
       child: Scaffold(
           appBar: AppBar(
             title: const Text(
-              "Dodaj pomiar pulsu",
+              "Dodaj pomiar ciśnienia krwi ",
               style: TextStyle(color: Colors.black),
             ),
             elevation: 0.0,
@@ -54,20 +54,35 @@ class _AddPulseState extends State<AddPulse> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Puls [bpm]: ", style: TextStyle(fontSize: 18.0)),
+                    Text("Ciśnienie skurczowe: ",
+                        style: TextStyle(fontSize: 18.0)),
                     SizedBox(height: 8.0),
                     TextField(
                         keyboardType: TextInputType.number,
                         controller: heightController,
                         textAlign: TextAlign.center,
                         decoration: InputDecoration(
-                            hintText: "Podaj wartość pulsu",
+                            hintText: "Podaj wartość:",
                             filled: true,
                             fillColor: Colors.grey[200],
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(8.0),
                                 borderSide: BorderSide.none))),
                     SizedBox(height: 15),
+                    Text("Ciśnienie rozkurczowe: ",
+                        style: TextStyle(fontSize: 18.0)),
+                    SizedBox(height: 8.0),
+                    TextField(
+                        keyboardType: TextInputType.number,
+                        controller: weightController,
+                        textAlign: TextAlign.center,
+                        decoration: InputDecoration(
+                            hintText: "Podaj wartość:",
+                            filled: true,
+                            fillColor: Colors.grey[200],
+                            border: OutlineInputBorder(
+                                borderRadius: BorderRadius.circular(8.0),
+                                borderSide: BorderSide.none))),
                     Container(
                       width: double.infinity,
                       height: 50.0,
@@ -80,21 +95,25 @@ class _AddPulseState extends State<AddPulse> {
                         onPressed: () {
                           setState(() {
                             height = double.parse(heightController.value.text);
+                            weight = double.parse(weightController.value.text);
                           });
-                          addPulseMeasurement(height).then((bool result) {
+                          addBloodPressureMeasurement(height, weight)
+                              .then((bool result) {
                             setState(() {
                               isAdded = result;
                               if (isAdded == true) {
                                 showDialog(
                                     context: context,
                                     builder: (context) => AlertDialog(
-                                            title: Text("Dodano pomiar pulsu"),
+                                            title: Text(
+                                                "Dodano pomiar ciśnienia krwi"),
                                             actions: [
                                               TextButton(
                                                 child: Text("OK"),
                                                 onPressed: () =>
                                                     Navigator.of(context)
-                                                        .pushNamed("/pulse"),
+                                                        .pushNamed(
+                                                            "/blood-pressure"),
                                               )
                                             ]));
                               } else {
@@ -115,15 +134,15 @@ class _AddPulseState extends State<AddPulse> {
                         },
                       ),
                     ),
-                    SizedBox(height: 20.0),
+                    SizedBox(height: 20.0)
                   ],
                 )),
           )),
     );
   }
 
-  Future<bool> addPulseMeasurement(double height) async {
-    final types = [HealthDataType.HEART_RATE];
+  Future<bool> addBloodPressureMeasurement(double height, double weight) async {
+    List<HealthDataType> types = [HealthDataType.BLOOD_PRESSURE_SYSTOLIC];
     final rights = [HealthDataAccess.WRITE];
     final permissions = [HealthDataAccess.READ_WRITE];
 
@@ -132,13 +151,27 @@ class _AddPulseState extends State<AddPulse> {
     if (hasPermissions == false) {
       await widget.health.requestAuthorization(types, permissions: permissions);
     }
-    bool success = await widget.health.writeHealthData(
-        height, HealthDataType.HEART_RATE, DateTime.now(), DateTime.now());
+    bool success = await widget.health.writeHealthData(height,
+        HealthDataType.BLOOD_PRESSURE_SYSTOLIC, DateTime.now(), DateTime.now());
+
+    if (success != true) return false;
+
+    types = [HealthDataType.BLOOD_PRESSURE_DIASTOLIC];
+
+    hasPermissions =
+        await HealthFactory.hasPermissions(types, permissions: rights);
+    if (hasPermissions == false) {
+      await widget.health.requestAuthorization(types, permissions: permissions);
+    }
+    success = await widget.health.writeHealthData(
+        weight,
+        HealthDataType.BLOOD_PRESSURE_DIASTOLIC,
+        DateTime.now(),
+        DateTime.now());
 
     if (success == true)
       return true;
-    else {
+    else
       return false;
-    }
   }
 }

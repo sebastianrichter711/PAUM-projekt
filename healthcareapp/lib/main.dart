@@ -7,9 +7,13 @@ import 'package:healthcareapp/pages/activitystats/StepsPage.dart';
 import 'package:healthcareapp/pages/details/details.dart';
 import 'package:healthcareapp/pages/home/home.dart';
 import 'package:health/health.dart';
+import 'package:healthcareapp/pages/life-params/BloodPressurePage.dart';
 import 'package:healthcareapp/pages/life-params/LifeParamsPage.dart';
 import 'package:healthcareapp/pages/life-params/PulsePage.dart';
+import 'package:healthcareapp/pages/life-params/TemperaturePage.dart';
+import 'package:healthcareapp/pages/life-params/add/AddBloodPressure.dart';
 import 'package:healthcareapp/pages/life-params/add/AddPulse.dart';
+import 'package:healthcareapp/pages/life-params/add/AddTemperature.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'dart:async';
 
@@ -53,6 +57,14 @@ class MyApp extends StatelessWidget {
         '/life-params': (context) => LifeParamsPage(health: healthFactory),
         '/pulse': (context) => PulsePage(health: healthFactory),
         '/add-pulse': (context) => AddPulsePage(health: healthFactory),
+        '/body-temperature': (context) =>
+            TemperaturePage(health: healthFactory),
+        '/add-body-temperature': (context) =>
+            AddTemperaturePage(health: healthFactory),
+        '/blood-pressure': (context) =>
+            BloodPressurePage(health: healthFactory),
+        '/add-blood-pressure': (context) =>
+            AddBloodPressurePage(health: healthFactory),
       },
       initialRoute: '/details',
     );

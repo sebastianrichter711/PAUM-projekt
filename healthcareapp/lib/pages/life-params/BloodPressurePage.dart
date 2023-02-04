@@ -5,34 +5,39 @@ import 'package:healthcareapp/pages/details/widgets/chart/lineChart.dart';
 import 'package:healthcareapp/widgets/bottom_navigation.dart';
 import 'package:health/health.dart';
 
-class PulsePage extends StatelessWidget {
+class BloodPressurePage extends StatelessWidget {
   final HealthFactory health;
-  const PulsePage({super.key, required this.health});
+  const BloodPressurePage({super.key, required this.health});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
-        children: [PulseData(health: health), BottomNavigation()],
+        children: [BloodPressureData(health: health), BottomNavigation()],
       ),
     );
   }
 }
 
-class PulseData extends StatefulWidget {
+class BloodPressureData extends StatefulWidget {
   final HealthFactory health;
-  PulseData({super.key, required this.health});
+  BloodPressureData({super.key, required this.health});
 
   @override
-  State<PulseData> createState() => _PulseDataState();
+  State<BloodPressureData> createState() => _BloodPressureDataState();
 }
 
-class _PulseDataState extends State<PulseData> {
+class _BloodPressureDataState extends State<BloodPressureData> {
+  double todayCalories = 0.0;
+  double weekCalories = 0.0;
+  double avgWeekCalories = 0.0;
   int weekday = DateTime.now().weekday;
-  List<Point> points = [];
+  List<Point> systolicPoints = [];
+  List<Point> diastolicPoints = [];
   @override
   Widget build(BuildContext context) {
-    fetchWeekPulse();
+    fetchSystolicPressureWeek();
+    fetchDiastolicPressureWeek();
     double width = MediaQuery.of(context).size.width - 60;
     return Expanded(
         child: Center(
@@ -42,7 +47,7 @@ class _PulseDataState extends State<PulseData> {
           Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
         Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           Text(
-            'Tętno',
+            'Ciśnienie krwi',
             style: TextStyle(
               fontFamily: 'Manrope',
               fontWeight: FontWeight.bold,
@@ -52,7 +57,8 @@ class _PulseDataState extends State<PulseData> {
           ),
         ]),
         SizedBox(height: 20),
-        LineChartWidget(health: widget.health, points: points),
+        LineChartWidget(health: widget.health, points: systolicPoints),
+        LineChartWidget(health: widget.health, points: diastolicPoints),
         Wrap(
           runSpacing: 16,
           children: [
@@ -80,7 +86,7 @@ class _PulseDataState extends State<PulseData> {
       String title, String subtitle, IconData icon, Color color, double width) {
     return GestureDetector(
         onTap: () {
-          Navigator.of(context).pushNamed('/add-pulse');
+          Navigator.of(context).pushNamed('/add-blood-pressure');
         },
         child: Container(
             width: width,
@@ -115,19 +121,19 @@ class _PulseDataState extends State<PulseData> {
                 ])));
   }
 
-  Future<void> fetchWeekPulse() async {
-    List<HealthDataPoint> gotPulse = [];
+  Future<void> fetchSystolicPressureWeek() async {
+    List<HealthDataPoint> gotSystolicPressure = [];
     List<Point> listOfPoints = [];
-    double? pulse = 0;
+    double? systolicPressure = 0;
     double result = 0.0;
 
     // get steps for today (i.e., since midnight)
     final now = DateTime.now();
     DateTime midnight = DateTime(now.year, now.month, now.day);
 
-    final types = [HealthDataType.HEART_RATE];
-    bool requested =
-        await widget.health.requestAuthorization([HealthDataType.HEART_RATE]);
+    final types = [HealthDataType.BLOOD_PRESSURE_SYSTOLIC];
+    bool requested = await widget.health
+        .requestAuthorization([HealthDataType.BLOOD_PRESSURE_SYSTOLIC]);
 
     if (requested) {
       int j = 0;
@@ -143,29 +149,92 @@ class _PulseDataState extends State<PulseData> {
           endDate = DateTime.now();
         }
         try {
-          gotPulse = await widget.health
+          gotSystolicPressure = await widget.health
               .getHealthDataFromTypes(startDate, endDate, types);
         } catch (error) {
           print("Caught exception in gotPulse: $error");
         }
 
-        gotPulse = HealthFactory.removeDuplicates(gotPulse);
-        if (gotPulse.length == 0) {
+        gotSystolicPressure =
+            HealthFactory.removeDuplicates(gotSystolicPressure);
+        if (gotSystolicPressure.length == 0) {
           Point newPoint = Point(x: j.toDouble(), y: 0.0);
           listOfPoints.add(newPoint);
-          print("Day:  $j  Pulse:  $pulse");
+          print("Day:  $j  Pulse:  $systolicPressure");
           j += 1;
         } else {
-          gotPulse.forEach((x) => result += double.parse(x.value.toString()));
-          pulse = result / double.parse(gotPulse.length.toString());
-          Point newPoint = Point(x: j.toDouble(), y: pulse);
+          gotSystolicPressure
+              .forEach((x) => result += double.parse(x.value.toString()));
+          systolicPressure =
+              result / double.parse(gotSystolicPressure.length.toString());
+          Point newPoint = Point(x: j.toDouble(), y: systolicPressure);
           listOfPoints.add(newPoint);
-          print("Day:  $j  Pulse:  $pulse");
+          print("Day:  $j  Pulse:  $systolicPressure");
           j += 1;
         }
       }
       setState(() {
-        points = listOfPoints;
+        systolicPoints = listOfPoints;
+      });
+    } else {
+      print("Authorization not granted - error in authorization");
+    }
+  }
+
+  Future<void> fetchDiastolicPressureWeek() async {
+    List<HealthDataPoint> gotDiastolicPressure = [];
+    List<Point> listOfPoints = [];
+    double? diastolicPressure = 0;
+    double result = 0.0;
+
+    // get steps for today (i.e., since midnight)
+    final now = DateTime.now();
+    DateTime midnight = DateTime(now.year, now.month, now.day);
+
+    final types = [HealthDataType.BLOOD_PRESSURE_DIASTOLIC];
+    bool requested = await widget.health
+        .requestAuthorization([HealthDataType.BLOOD_PRESSURE_DIASTOLIC]);
+
+    if (requested) {
+      int j = 0;
+      for (int i = 6; i >= 0; i--) {
+        result = 0.0;
+        DateTime startDate;
+        DateTime endDate;
+        if (i != 0) {
+          startDate = midnight.subtract(Duration(days: i));
+          endDate = midnight.subtract(Duration(days: i - 1));
+        } else {
+          startDate = midnight;
+          endDate = DateTime.now();
+        }
+        try {
+          gotDiastolicPressure = await widget.health
+              .getHealthDataFromTypes(startDate, endDate, types);
+        } catch (error) {
+          print("Caught exception in gotPulse: $error");
+        }
+
+        gotDiastolicPressure =
+            HealthFactory.removeDuplicates(gotDiastolicPressure);
+        if (gotDiastolicPressure.length == 0) {
+          Point newPoint = Point(x: j.toDouble(), y: 0.0);
+          listOfPoints.add(newPoint);
+          print("Day:  $j  Pulse:  $diastolicPressure");
+          j += 1;
+        } else {
+          gotDiastolicPressure
+              .forEach((x) => result += double.parse(x.value.toString()));
+          diastolicPressure =
+              result / double.parse(gotDiastolicPressure.length.toString());
+          Point newPoint = Point(x: j.toDouble(), y: diastolicPressure);
+          listOfPoints.add(newPoint);
+          print("Day:  $j  Pulse:  $diastolicPressure");
+          j += 1;
+        }
+      }
+      setState(() {
+        diastolicPoints = listOfPoints;
       });
     } else {
       print("Authorization not granted - error in authorization");

@@ -56,7 +56,7 @@ class _LineChartDrawState extends State<LineChartDraw> {
                 spots: widget.points
                     .map((point) => FlSpot(point.x, point.y))
                     .toList(),
-                isCurved: true,
+                isCurved: false,
                 dotData: FlDotData(show: true))
           ])),
     );
