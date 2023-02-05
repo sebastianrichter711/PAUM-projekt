@@ -249,8 +249,9 @@ class _AddSleepState extends State<AddSleep> {
                         ),
                       ],
                     ),
+                    SizedBox(height: 20.0),
                     Container(
-                      width: double.infinity,
+                      width: 150.0,
                       height: 50.0,
                       child: TextButton(
                         style: TextButton.styleFrom(
@@ -315,6 +316,22 @@ class _AddSleepState extends State<AddSleep> {
 
   Future<bool> addSleepMeasurement(
       DateTime sleepStartDateTime, DateTime sleepEndDateTime) async {
+    Duration sleepLength = sleepEndDateTime.difference(sleepStartDateTime);
+    double sleepLengthMinutes = sleepLength.inMinutes.toDouble();
+    if (sleepLengthMinutes <= 0 || sleepLengthMinutes >= 1440) {
+      showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+                  title: Text(
+                      "Nieprawidłowy czas snu. Sen nie może trwać mniej niż minutę ani więcej niż dobę"),
+                  actions: [
+                    TextButton(
+                        child: Text("OK"),
+                        onPressed: () => Navigator.pop(context))
+                  ]));
+      return false;
+    }
+
     final types = [HealthDataType.SLEEP_IN_BED];
     final rights = [HealthDataAccess.WRITE];
     final permissions = [HealthDataAccess.READ_WRITE];
@@ -324,8 +341,6 @@ class _AddSleepState extends State<AddSleep> {
     if (hasPermissions == false) {
       await widget.health.requestAuthorization(types, permissions: permissions);
     }
-    Duration sleepLength = sleepStartDateTime.difference(sleepEndDateTime);
-    double sleepLengthMinutes = sleepLength.inMinutes.toDouble();
     bool success = await widget.health.writeHealthData(sleepLengthMinutes,
         HealthDataType.SLEEP_IN_BED, sleepStartDateTime, sleepEndDateTime);
 

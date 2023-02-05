@@ -119,7 +119,11 @@ class _SleepDataState extends State<SleepData> {
     List<HealthDataPoint> gotSleep = [];
     List<Point> listOfPoints = [];
     double? sleep = 0;
-    double result = 0.0;
+    // double result = 0.0;
+    int hours = 0;
+    int minutes = 0;
+    int nextDayHours = 0;
+    int nextDayMinutes = 0;
 
     // get steps for today (i.e., since midnight)
     final now = DateTime.now();
@@ -132,7 +136,11 @@ class _SleepDataState extends State<SleepData> {
     if (requested) {
       int j = 0;
       for (int i = 6; i >= 0; i--) {
-        result = 0.0;
+        // result = 0.0;
+        hours = nextDayHours;
+        minutes = nextDayMinutes;
+        nextDayHours = 0;
+        nextDayMinutes = 0;
         DateTime startDate;
         DateTime endDate;
         if (i != 0) {
@@ -156,11 +164,32 @@ class _SleepDataState extends State<SleepData> {
           print("Day:  $j  Sleep:  $sleep");
           j += 1;
         } else {
-          gotSleep.forEach((x) => result += double.parse(x.value.toString()));
-          sleep = result / double.parse(gotSleep.length.toString());
+          gotSleep.forEach((x) {
+            // result += double.parse(x.value.toString());
+            if (x.dateFrom.day < x.dateTo.day) {
+              DateTime currentPointMidnight =
+                  DateTime(x.dateTo.year, x.dateTo.month, x.dateTo.day);
+
+              Duration firstHalfSleepLength =
+                  currentPointMidnight.difference(x.dateFrom);
+              hours += firstHalfSleepLength.inHours;
+              minutes += firstHalfSleepLength.inMinutes;
+
+              Duration secondHalfSleepLength =
+                  x.dateTo.difference(currentPointMidnight);
+              nextDayHours += secondHalfSleepLength.inHours;
+              nextDayMinutes += secondHalfSleepLength.inMinutes;
+            } else {
+              Duration sleepLength = x.dateTo.difference(x.dateFrom);
+              hours += sleepLength.inHours;
+              minutes += sleepLength.inMinutes;
+            }
+            ;
+          });
+          // sleep = result / double.parse(gotSleep.length.toString());
           Point newPoint = Point(x: j.toDouble(), y: sleep);
           listOfPoints.add(newPoint);
-          print("Day:  $j  Sleep:  $sleep");
+          print("Day:  $j  Sleep:  $hours:$minutes");
           j += 1;
         }
       }
