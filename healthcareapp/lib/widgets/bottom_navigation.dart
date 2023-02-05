@@ -46,7 +46,11 @@ class BottomNavigation extends StatelessWidget {
                       child: const Icon(Icons.home, color: Colors.white)),
                 ),
               ),
-              const Icon(Icons.bedtime),
+              GestureDetector(
+                  onTap: () {
+                    Navigator.of(context).pushNamed('/sleep');
+                  },
+                  child: const Icon(Icons.bedtime)),
               GestureDetector(
                   onTap: () {
                     Navigator.of(context).pushNamed('/bmi');
