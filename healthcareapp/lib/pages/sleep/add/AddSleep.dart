@@ -27,8 +27,8 @@ class AddSleep extends StatefulWidget {
 }
 
 class _AddSleepState extends State<AddSleep> {
-  bool measurementStarted = false;
-  DateTime sleepStartTime = DateTime.now();
+  DateTime sleepStartDateTime = DateTime(2022, 12, 24, 5, 30);
+  DateTime sleepEndDateTime = DateTime(2022, 12, 24, 5, 30);
   int currentIndex = 0;
   String result = "";
   double height = 0;
@@ -39,6 +39,11 @@ class _AddSleepState extends State<AddSleep> {
   TextEditingController heightController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+    final sleepStartHours = sleepStartDateTime.hour.toString().padLeft(2, '0');
+    final sleepStartMinutes =
+        sleepStartDateTime.minute.toString().padLeft(2, '0');
+    final sleepEndHours = sleepEndDateTime.hour.toString().padLeft(2, '0');
+    final sleepEndMinutes = sleepEndDateTime.minute.toString().padLeft(2, '0');
     return Expanded(
       child: Scaffold(
           appBar: AppBar(
@@ -56,72 +61,277 @@ class _AddSleepState extends State<AddSleep> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Czas trwania snu: ",
-                        style: TextStyle(fontSize: 18.0)),
-                    SizedBox(height: 8.0),
+                    Row(
+                      children: [
+                        Text("Początek snu: ",
+                            style: TextStyle(fontSize: 18.0)),
+                        SizedBox(width: 10.0),
+                        Container(
+                          width: 150.0,
+                          height: 50.0,
+                          child: ElevatedButton(
+                            style: TextButton.styleFrom(
+                              backgroundColor: Colors.blue,
+                            ),
+                            child: Text(
+                                '${sleepStartDateTime.year}/${sleepStartDateTime.month}/${sleepStartDateTime.day}',
+                                style: TextStyle(color: Colors.white)),
+                            onPressed: () async {
+                              final date = await pickDate();
+                              if (date == null) {
+                                return;
+                              } else {
+                                final newDateTime = DateTime(
+                                    date.year,
+                                    date.month,
+                                    date.day,
+                                    sleepStartDateTime.hour,
+                                    sleepStartDateTime.minute);
+                                setState(
+                                    () => sleepStartDateTime = newDateTime);
+                              }
+                              // sleepStartTime = DateTime.now();
+                              // addSleepMeasurement(sleepStartTime)
+                              //     .then((bool result) {
+                              //   setState(() {
+                              //     isAdded = result;
+                              //     if (isAdded == true) {
+                              //       showDialog(
+                              //           context: context,
+                              //           builder: (context) => AlertDialog(
+                              //                   title: Text(
+                              //                       "Dodano pomiar czasu trwania snu"),
+                              //                   actions: [
+                              //                     TextButton(
+                              //                       child: Text("OK"),
+                              //                       onPressed: () =>
+                              //                           Navigator.of(context)
+                              //                               .pushNamed("/sleep"),
+                              //                     )
+                              //                   ]));
+                              //     } else {
+                              //       showDialog(
+                              //           context: context,
+                              //           builder: (context) => AlertDialog(
+                              //                   title: Text(
+                              //                       "Nie udało się dodać pomiaru"),
+                              //                   actions: [
+                              //                     TextButton(
+                              //                         child: Text("OK"),
+                              //                         onPressed: () =>
+                              //                             Navigator.pop(context))
+                              //                   ]));
+                              //     }
+                              //   });
+                              // });
+                            },
+                          ),
+                        ),
+                        SizedBox(width: 10.0),
+                        Container(
+                          width: 100.0,
+                          height: 50.0,
+                          child: ElevatedButton(
+                            style: TextButton.styleFrom(
+                              backgroundColor: Colors.blue,
+                            ),
+                            child: Text('$sleepStartHours:$sleepStartMinutes',
+                                style: TextStyle(color: Colors.white)),
+                            onPressed: () async {
+                              final time = await pickTime();
+                              if (time == null) {
+                                return;
+                              } else {
+                                final newDateTime = DateTime(
+                                    sleepStartDateTime.year,
+                                    sleepStartDateTime.month,
+                                    sleepStartDateTime.day,
+                                    time.hour,
+                                    time.minute);
+                                setState(
+                                    () => sleepStartDateTime = newDateTime);
+                              }
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 20.0),
+                    Row(
+                      children: [
+                        Text("Koniec snu: ", style: TextStyle(fontSize: 18.0)),
+                        SizedBox(width: 10.0),
+                        Container(
+                          width: 150.0,
+                          height: 50.0,
+                          child: ElevatedButton(
+                            style: TextButton.styleFrom(
+                              backgroundColor: Colors.blue,
+                            ),
+                            child: Text(
+                                '${sleepEndDateTime.year}/${sleepEndDateTime.month}/${sleepEndDateTime.day}',
+                                style: TextStyle(color: Colors.white)),
+                            onPressed: () async {
+                              final date = await pickDate();
+                              if (date == null) {
+                                return;
+                              } else {
+                                final newDateTime = DateTime(
+                                    date.year,
+                                    date.month,
+                                    date.day,
+                                    sleepEndDateTime.hour,
+                                    sleepEndDateTime.minute);
+                                setState(() => sleepEndDateTime = newDateTime);
+                              }
+                              // sleepStartTime = DateTime.now();
+                              // addSleepMeasurement(sleepStartTime)
+                              //     .then((bool result) {
+                              //   setState(() {
+                              //     isAdded = result;
+                              //     if (isAdded == true) {
+                              //       showDialog(
+                              //           context: context,
+                              //           builder: (context) => AlertDialog(
+                              //                   title: Text(
+                              //                       "Dodano pomiar czasu trwania snu"),
+                              //                   actions: [
+                              //                     TextButton(
+                              //                       child: Text("OK"),
+                              //                       onPressed: () =>
+                              //                           Navigator.of(context)
+                              //                               .pushNamed("/sleep"),
+                              //                     )
+                              //                   ]));
+                              //     } else {
+                              //       showDialog(
+                              //           context: context,
+                              //           builder: (context) => AlertDialog(
+                              //                   title: Text(
+                              //                       "Nie udało się dodać pomiaru"),
+                              //                   actions: [
+                              //                     TextButton(
+                              //                         child: Text("OK"),
+                              //                         onPressed: () =>
+                              //                             Navigator.pop(context))
+                              //                   ]));
+                              //     }
+                              //   });
+                              // });
+                            },
+                          ),
+                        ),
+                        SizedBox(width: 10.0),
+                        Container(
+                          width: 100.0,
+                          height: 50.0,
+                          child: ElevatedButton(
+                            style: TextButton.styleFrom(
+                              backgroundColor: Colors.blue,
+                            ),
+                            child: Text('$sleepEndHours:$sleepEndMinutes',
+                                style: TextStyle(color: Colors.white)),
+                            onPressed: () async {
+                              final time = await pickTime();
+                              if (time == null) {
+                                return;
+                              } else {
+                                final newDateTime = DateTime(
+                                    sleepEndDateTime.year,
+                                    sleepEndDateTime.month,
+                                    sleepEndDateTime.day,
+                                    time.hour,
+                                    time.minute);
+                                setState(() => sleepEndDateTime = newDateTime);
+                              }
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                    SizedBox(height: 20.0),
                     Container(
-                      width: double.infinity,
+                      width: 150.0,
                       height: 50.0,
                       child: TextButton(
                         style: TextButton.styleFrom(
                           backgroundColor: Colors.blue,
                         ),
-                        child: Text(
-                            (!measurementStarted)
-                                ? "Rozpocznij pomiar czasu trwania snu"
-                                : "Zakończ pomiar czasu trwania snu",
+                        child: Text("Dodaj pomiar",
                             style: TextStyle(color: Colors.white)),
                         onPressed: () {
-                          if (!measurementStarted) {
-                            measurementStarted = true;
-                            sleepStartTime = DateTime.now();
-                          } else {
-                            measurementStarted = false;
-                            addSleepMeasurement(sleepStartTime)
-                                .then((bool result) {
-                              setState(() {
-                                isAdded = result;
-                                if (isAdded == true) {
-                                  showDialog(
-                                      context: context,
-                                      builder: (context) => AlertDialog(
-                                              title: Text(
-                                                  "Dodano pomiar czasu trwania snu"),
-                                              actions: [
-                                                TextButton(
+                          addSleepMeasurement(
+                                  sleepStartDateTime, sleepEndDateTime)
+                              .then((bool result) {
+                            setState(() {
+                              isAdded = result;
+                              if (isAdded == true) {
+                                showDialog(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                            title: Text(
+                                                "Dodano pomiar czasu trwania snu"),
+                                            actions: [
+                                              TextButton(
+                                                child: Text("OK"),
+                                                onPressed: () =>
+                                                    Navigator.of(context)
+                                                        .pushNamed("/sleep"),
+                                              )
+                                            ]));
+                              } else {
+                                showDialog(
+                                    context: context,
+                                    builder: (context) => AlertDialog(
+                                            title: Text(
+                                                "Nie udało się dodać pomiaru"),
+                                            actions: [
+                                              TextButton(
                                                   child: Text("OK"),
                                                   onPressed: () =>
-                                                      Navigator.of(context)
-                                                          .pushNamed("/sleep"),
-                                                )
-                                              ]));
-                                } else {
-                                  showDialog(
-                                      context: context,
-                                      builder: (context) => AlertDialog(
-                                              title: Text(
-                                                  "Nie udało się dodać pomiaru"),
-                                              actions: [
-                                                TextButton(
-                                                    child: Text("OK"),
-                                                    onPressed: () =>
-                                                        Navigator.pop(context))
-                                              ]));
-                                }
-                              });
+                                                      Navigator.pop(context))
+                                            ]));
+                              }
                             });
-                          }
+                          });
                         },
                       ),
                     ),
-                    SizedBox(height: 20.0),
                   ],
                 )),
           )),
     );
   }
 
-  Future<bool> addSleepMeasurement(DateTime sleepStartTime) async {
+  Future<DateTime?> pickDate() => showDatePicker(
+      context: context,
+      initialDate: sleepStartDateTime,
+      firstDate: DateTime(1900),
+      lastDate: DateTime(2100));
+
+  Future<TimeOfDay?> pickTime() => showTimePicker(
+      context: context,
+      initialTime: TimeOfDay(
+          hour: sleepStartDateTime.hour, minute: sleepStartDateTime.minute));
+
+  Future<bool> addSleepMeasurement(
+      DateTime sleepStartDateTime, DateTime sleepEndDateTime) async {
+    Duration sleepLength = sleepEndDateTime.difference(sleepStartDateTime);
+    double sleepLengthMinutes = sleepLength.inMinutes.toDouble();
+    if (sleepLengthMinutes <= 0 || sleepLengthMinutes >= 1440) {
+      showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+                  title: Text(
+                      "Nieprawidłowy czas snu. Sen nie może trwać mniej niż minutę ani więcej niż dobę"),
+                  actions: [
+                    TextButton(
+                        child: Text("OK"),
+                        onPressed: () => Navigator.pop(context))
+                  ]));
+      return false;
+    }
+
     final types = [HealthDataType.SLEEP_IN_BED];
     final rights = [HealthDataAccess.WRITE];
     final permissions = [HealthDataAccess.READ_WRITE];
@@ -131,10 +341,8 @@ class _AddSleepState extends State<AddSleep> {
     if (hasPermissions == false) {
       await widget.health.requestAuthorization(types, permissions: permissions);
     }
-    Duration sleepLength = sleepStartTime.difference(DateTime.now());
-    double sleepLengthMinutes = sleepLength.inMinutes.toDouble();
     bool success = await widget.health.writeHealthData(sleepLengthMinutes,
-        HealthDataType.SLEEP_IN_BED, sleepStartTime, DateTime.now());
+        HealthDataType.SLEEP_IN_BED, sleepStartDateTime, sleepEndDateTime);
 
     if (success == true)
       return true;
