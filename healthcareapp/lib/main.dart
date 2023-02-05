@@ -22,6 +22,34 @@ import 'pages/bmi/bmi.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setEnabledSystemUIMode(SystemUiMode.immersive);
+  final types = [
+    HealthDataType.DISTANCE_DELTA,
+    HealthDataType.STEPS,
+    HealthDataType.ACTIVE_ENERGY_BURNED,
+    HealthDataType.MOVE_MINUTES,
+    HealthDataType.BODY_TEMPERATURE,
+    HealthDataType.HEART_RATE,
+    HealthDataType.BLOOD_PRESSURE_SYSTOLIC,
+    HealthDataType.BLOOD_PRESSURE_DIASTOLIC,
+    HealthDataType.SLEEP_IN_BED
+  ];
+  final permissions = [
+    HealthDataAccess.READ_WRITE,
+    HealthDataAccess.READ_WRITE,
+    HealthDataAccess.READ_WRITE,
+    HealthDataAccess.READ_WRITE,
+    HealthDataAccess.READ_WRITE,
+    HealthDataAccess.READ_WRITE,
+    HealthDataAccess.READ_WRITE,
+    HealthDataAccess.READ_WRITE,
+    HealthDataAccess.READ_WRITE
+  ];
+  bool? hasPermissions =
+      await HealthFactory.hasPermissions(types, permissions: permissions);
+  if (hasPermissions == false) {
+    HealthFactory health = HealthFactory();
+    await health.requestAuthorization(types, permissions: permissions);
+  }
   await Permission.activityRecognition.request();
   await Permission.location.request();
   runApp(const MyApp());
@@ -32,7 +60,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    HealthFactory healthFactory = HealthFactory();
     return MaterialApp(
       title: "Health Care App",
       theme: ThemeData(
@@ -48,23 +75,23 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       routes: {
         '/': (context) => const HomePage(),
-        '/details': (context) => DetailsPage(health: healthFactory),
+        '/details': (context) => DetailsPage(health: HealthFactory()),
         '/bmi': (context) => const BmiPage(),
         '/activity-page': (context) => const ActivityPage(),
         '/steps': (context) => const StepsPage(),
         '/distance': (context) => const DistancePage(),
         '/calories': (context) => const CaloriesPage(),
-        '/life-params': (context) => LifeParamsPage(health: healthFactory),
-        '/pulse': (context) => PulsePage(health: healthFactory),
-        '/add-pulse': (context) => AddPulsePage(health: healthFactory),
+        '/life-params': (context) => LifeParamsPage(health: HealthFactory()),
+        '/pulse': (context) => PulsePage(health: HealthFactory()),
+        '/add-pulse': (context) => AddPulsePage(health: HealthFactory()),
         '/body-temperature': (context) =>
-            TemperaturePage(health: healthFactory),
+            TemperaturePage(health: HealthFactory()),
         '/add-body-temperature': (context) =>
-            AddTemperaturePage(health: healthFactory),
+            AddTemperaturePage(health: HealthFactory()),
         '/blood-pressure': (context) =>
-            BloodPressurePage(health: healthFactory),
+            BloodPressurePage(health: HealthFactory()),
         '/add-blood-pressure': (context) =>
-            AddBloodPressurePage(health: healthFactory),
+            AddBloodPressurePage(health: HealthFactory()),
       },
       initialRoute: '/details',
     );
