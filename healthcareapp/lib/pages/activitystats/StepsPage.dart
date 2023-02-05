@@ -31,7 +31,7 @@ class _StepsPageWidgetState extends State<StepsPageWidget> {
   int weekday = DateTime.now().weekday;
   @override
   Widget build(BuildContext context) {
-    fetchTodaySteps();
+    //fetchTodaySteps();
     fetchWeekSteps();
     double width = MediaQuery.of(context).size.width - 60;
     return Expanded(
@@ -59,7 +59,7 @@ class _StepsPageWidgetState extends State<StepsPageWidget> {
             modeButton(weekSteps.toString(), 'Liczba kroków w tym tygodniu',
                 FontAwesomeIcons.calendarWeek, Color(0xFFFE7F00), width),
             modeButton(
-                (weekSteps / weekday).toInt().toStringAsFixed(1),
+                avgWeekSteps.toStringAsFixed(1),
                 'Średnia liczba kroków/dzień',
                 FontAwesomeIcons.calendarWeek,
                 Color(0xFFFE7F00),
@@ -127,37 +127,38 @@ class _StepsPageWidgetState extends State<StepsPageWidget> {
                 ])));
   }
 
-  Future<void> fetchTodaySteps() async {
-    int? numberOfSteps;
+  // Future<void> fetchTodaySteps() async {
+  //   int? numberOfSteps;
 
-    HealthFactory health = HealthFactory();
+  //   HealthFactory health = HealthFactory();
 
-    // get steps for today (i.e., since midnight)
-    final now = DateTime.now();
-    final midnight = DateTime(now.year, now.month, now.day);
+  //   // get steps for today (i.e., since midnight)
+  //   final now = DateTime.now();
+  //   final midnight = DateTime(now.year, now.month, now.day);
 
-    bool requested = await health.requestAuthorization([HealthDataType.STEPS]);
+  //   bool requested = await health.requestAuthorization([HealthDataType.STEPS]);
 
-    if (requested) {
-      try {
-        numberOfSteps = await health.getTotalStepsInInterval(midnight, now);
-      } catch (error) {
-        print("Caught exception in getTotalStepsInInterval: $error");
-      }
+  //   if (requested) {
+  //     try {
+  //       numberOfSteps = await health.getTotalStepsInInterval(midnight, now);
+  //     } catch (error) {
+  //       print("Caught exception in getTotalStepsInInterval: $error");
+  //     }
 
-      //print('Total number of steps: $numberOfSteps');
+  //     //print('Total number of steps: $numberOfSteps');
 
-      numberOfSteps = (numberOfSteps == null) ? 0 : numberOfSteps;
-      setState(() {
-        todaySteps = numberOfSteps!;
-      });
-    } else {
-      print("Authorization not granted - error in authorization");
-    }
-  }
+  //     numberOfSteps = (numberOfSteps == null) ? 0 : numberOfSteps;
+  //     setState(() {
+  //       todaySteps = numberOfSteps!;
+  //     });
+  //   } else {
+  //     print("Authorization not granted - error in authorization");
+  //   }
+  // }
 
   Future<void> fetchWeekSteps() async {
     int? numberOfSteps;
+    int? dailySteps;
 
     HealthFactory health = HealthFactory();
 
@@ -171,6 +172,7 @@ class _StepsPageWidgetState extends State<StepsPageWidget> {
     if (requested) {
       try {
         numberOfSteps = await health.getTotalStepsInInterval(weekBegin, now);
+        dailySteps = await health.getTotalStepsInInterval(midnight, now);
       } catch (error) {
         print("Caught exception in getTotalStepsInInterval: $error");
       }
@@ -178,8 +180,11 @@ class _StepsPageWidgetState extends State<StepsPageWidget> {
       //print('Total number of steps: $numberOfSteps');
 
       numberOfSteps = (numberOfSteps == null) ? 0 : numberOfSteps;
+      dailySteps = (dailySteps == null) ? 0 : dailySteps;
       setState(() {
         weekSteps = numberOfSteps!;
+        todaySteps = dailySteps!;
+        avgWeekSteps = (weekSteps / weekday);
       });
     } else {
       print("Authorization not granted - error in authorization");
