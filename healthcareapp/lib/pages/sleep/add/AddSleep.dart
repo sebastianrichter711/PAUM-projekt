@@ -77,7 +77,7 @@ class _AddSleepState extends State<AddSleep> {
                             sleepStartTime = DateTime.now();
                           } else {
                             measurementStarted = false;
-                            addSleepMeasurement(height, sleepStartTime)
+                            addSleepMeasurement(sleepStartTime)
                                 .then((bool result) {
                               setState(() {
                                 isAdded = result;
@@ -121,8 +121,7 @@ class _AddSleepState extends State<AddSleep> {
     );
   }
 
-  Future<bool> addSleepMeasurement(
-      double height, DateTime sleepStartTime) async {
+  Future<bool> addSleepMeasurement(DateTime sleepStartTime) async {
     final types = [HealthDataType.SLEEP_IN_BED];
     final rights = [HealthDataAccess.WRITE];
     final permissions = [HealthDataAccess.READ_WRITE];
@@ -132,8 +131,10 @@ class _AddSleepState extends State<AddSleep> {
     if (hasPermissions == false) {
       await widget.health.requestAuthorization(types, permissions: permissions);
     }
-    bool success = await widget.health.writeHealthData(
-        height, HealthDataType.SLEEP_IN_BED, sleepStartTime, DateTime.now());
+    Duration sleepLength = sleepStartTime.difference(DateTime.now());
+    double sleepLengthMinutes = sleepLength.inMinutes.toDouble();
+    bool success = await widget.health.writeHealthData(sleepLengthMinutes,
+        HealthDataType.SLEEP_IN_BED, sleepStartTime, DateTime.now());
 
     if (success == true)
       return true;
