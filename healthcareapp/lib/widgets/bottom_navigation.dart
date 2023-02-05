@@ -55,7 +55,7 @@ class BottomNavigation extends StatelessWidget {
                   onTap: () {
                     Navigator.of(context).pushNamed('/bmi');
                   },
-                  child: const Icon(Icons.settings)),
+                  child: const Icon(Icons.monitor_weight)),
             ],
           ),
         ));

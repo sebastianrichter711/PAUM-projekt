@@ -67,7 +67,7 @@ class _AddSleepState extends State<AddSleep> {
                             style: TextStyle(fontSize: 18.0)),
                         SizedBox(width: 10.0),
                         Container(
-                          width: 150.0,
+                          width: 110.0,
                           height: 50.0,
                           child: ElevatedButton(
                             style: TextButton.styleFrom(
@@ -129,7 +129,7 @@ class _AddSleepState extends State<AddSleep> {
                         ),
                         SizedBox(width: 10.0),
                         Container(
-                          width: 100.0,
+                          width: 80.0,
                           height: 50.0,
                           child: ElevatedButton(
                             style: TextButton.styleFrom(
@@ -162,7 +162,7 @@ class _AddSleepState extends State<AddSleep> {
                         Text("Koniec snu: ", style: TextStyle(fontSize: 18.0)),
                         SizedBox(width: 10.0),
                         Container(
-                          width: 150.0,
+                          width: 110.0,
                           height: 50.0,
                           child: ElevatedButton(
                             style: TextButton.styleFrom(
@@ -223,7 +223,7 @@ class _AddSleepState extends State<AddSleep> {
                         ),
                         SizedBox(width: 10.0),
                         Container(
-                          width: 100.0,
+                          width: 80.0,
                           height: 50.0,
                           child: ElevatedButton(
                             style: TextButton.styleFrom(
@@ -332,21 +332,25 @@ class _AddSleepState extends State<AddSleep> {
       return false;
     }
 
-    final types = [HealthDataType.SLEEP_IN_BED];
-    final rights = [HealthDataAccess.WRITE];
-    final permissions = [HealthDataAccess.READ_WRITE];
+    //final types = [HealthDataType.SLEEP_IN_BED];
+    //final rights = [HealthDataAccess.WRITE];
+    //final permissions = [HealthDataAccess.READ_WRITE];
 
-    bool? hasPermissions =
-        await HealthFactory.hasPermissions(types, permissions: rights);
-    if (hasPermissions == false) {
-      await widget.health.requestAuthorization(types, permissions: permissions);
-    }
+    // bool? hasPermissions =
+    //     await HealthFactory.hasPermissions(types, permissions: rights);
+    // if (hasPermissions == false) {
+    //   await widget.health.requestAuthorization(types, permissions: permissions);
+    // }
+    print("Sleep START: $sleepStartDateTime");
+    print("Sleep END: $sleepEndDateTime");
     bool success = await widget.health.writeHealthData(sleepLengthMinutes,
-        HealthDataType.SLEEP_IN_BED, sleepStartDateTime, sleepEndDateTime);
-
-    if (success == true)
+        HealthDataType.SLEEP_ASLEEP, sleepStartDateTime, sleepEndDateTime);
+    print("Sleep added: $sleepLengthMinutes");
+    if (success == true) {
+      print("TAK");
       return true;
-    else {
+    } else {
+      print("NIE");
       return false;
     }
   }

@@ -33,9 +33,11 @@ void main() async {
     HealthDataType.HEART_RATE,
     HealthDataType.BLOOD_PRESSURE_SYSTOLIC,
     HealthDataType.BLOOD_PRESSURE_DIASTOLIC,
-    HealthDataType.SLEEP_IN_BED
+    HealthDataType.SLEEP_IN_BED,
+    HealthDataType.SLEEP_ASLEEP
   ];
   final permissions = [
+    HealthDataAccess.READ_WRITE,
     HealthDataAccess.READ_WRITE,
     HealthDataAccess.READ_WRITE,
     HealthDataAccess.READ_WRITE,
