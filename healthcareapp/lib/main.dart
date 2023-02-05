@@ -53,7 +53,7 @@ class MyApp extends StatelessWidget {
         '/activity-page': (context) => const ActivityPage(),
         '/steps': (context) => const StepsPage(),
         '/distance': (context) => const DistancePage(),
-        '/calories': (context) => CaloriesPage(health: healthFactory),
+        '/calories': (context) => const CaloriesPage(),
         '/life-params': (context) => LifeParamsPage(health: healthFactory),
         '/pulse': (context) => PulsePage(health: healthFactory),
         '/add-pulse': (context) => AddPulsePage(health: healthFactory),

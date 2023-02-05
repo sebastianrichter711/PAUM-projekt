@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:healthcareapp/data/fetchWeekSteps.dart';
 import 'package:healthcareapp/pages/details/widgets/appbar.dart';
 import 'package:healthcareapp/pages/details/widgets/chart/lineChart.dart';
 import 'package:healthcareapp/pages/details/widgets/dates.dart';
@@ -61,13 +60,14 @@ class _DetailsPageStatefulState extends State<DetailsPageStateful> {
     List<Point> listOfSteps = [];
     int? steps = 0;
 
-    HealthFactory health = HealthFactory();
+    //HealthFactory health = HealthFactory();
 
     // get steps for today (i.e., since midnight)
     final now = DateTime.now();
     DateTime midnight = DateTime(now.year, now.month, now.day);
 
-    bool requested = await health.requestAuthorization([HealthDataType.STEPS]);
+    bool requested =
+        await widget.health.requestAuthorization([HealthDataType.STEPS]);
 
     if (requested) {
       int j = 0;
@@ -82,7 +82,8 @@ class _DetailsPageStatefulState extends State<DetailsPageStateful> {
           endDate = DateTime.now();
         }
         try {
-          steps = await health.getTotalStepsInInterval(startDate, endDate);
+          steps =
+              await widget.health.getTotalStepsInInterval(startDate, endDate);
         } catch (error) {
           print("Caught exception in getTotalStepsInInterval: $error");
         }

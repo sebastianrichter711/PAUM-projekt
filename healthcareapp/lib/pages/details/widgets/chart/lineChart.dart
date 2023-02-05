@@ -1,7 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:health/health.dart';
-import 'package:healthcareapp/data/fetchWeekSteps.dart';
+import 'package:healthcareapp/data/DataFactory.dart';
 import 'package:intl/intl.dart';
 
 class LineChartWidget extends StatelessWidget {

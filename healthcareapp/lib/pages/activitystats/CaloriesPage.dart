@@ -1,26 +1,25 @@
 import 'package:flutter/material.dart';
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:healthcareapp/data/DataFactory.dart';
 import 'package:healthcareapp/widgets/bottom_navigation.dart';
 import 'package:health/health.dart';
 
 class CaloriesPage extends StatelessWidget {
-  final HealthFactory health;
-  const CaloriesPage({super.key, required this.health});
+  const CaloriesPage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
-        children: [CaloriesPageWidget(health: health), BottomNavigation()],
+        children: const [CaloriesPageWidget(), BottomNavigation()],
       ),
     );
   }
 }
 
 class CaloriesPageWidget extends StatefulWidget {
-  final HealthFactory health;
-  CaloriesPageWidget({super.key, required this.health});
+  const CaloriesPageWidget({super.key});
 
   @override
   State<CaloriesPageWidget> createState() => _CaloriesPageWidgetState();
@@ -33,8 +32,17 @@ class _CaloriesPageWidgetState extends State<CaloriesPageWidget> {
   int weekday = DateTime.now().weekday;
   @override
   Widget build(BuildContext context) {
-    fetchTodayCalories();
-    fetchWeekCalories();
+    DataFactory df = DataFactory();
+    df.fetchTodayCalories().then((double result) => {
+          setState(() {
+            todayCalories = result;
+          })
+        });
+    df.fetchWeekCalories().then((double result) => {
+          setState(() {
+            weekCalories = result;
+          })
+        });
     double width = MediaQuery.of(context).size.width - 60;
     return Expanded(
         child: Center(
@@ -144,79 +152,5 @@ class _CaloriesPageWidgetState extends State<CaloriesPageWidget> {
                     child: FaIcon(icon, size: 35, color: Colors.white),
                   )
                 ])));
-  }
-
-  Future<void> fetchTodayCalories() async {
-    List<HealthDataPoint> gotCalories = [];
-    double sum = 0.0;
-
-    //HealthFactory health = HealthFactory();
-
-    // get steps for today (i.e., since midnight)
-    final now = DateTime.now();
-    final midnight = DateTime(now.year, now.month, now.day);
-
-    final types = [HealthDataType.ACTIVE_ENERGY_BURNED];
-
-    bool requested = await widget.health
-        .requestAuthorization([HealthDataType.ACTIVE_ENERGY_BURNED]);
-
-    if (requested) {
-      try {
-        gotCalories =
-            await widget.health.getHealthDataFromTypes(midnight, now, types);
-      } catch (error) {
-        print("Caught exception in getHealthDataTypes: $error");
-      }
-
-      gotCalories = HealthFactory.removeDuplicates(gotCalories);
-
-      // print the results
-      gotCalories.forEach((x) => sum += double.parse(x.value.toString()));
-
-      setState(() {
-        todayCalories = sum;
-      });
-    } else {
-      print("Authorization not granted - error in authorization");
-    }
-  }
-
-  Future<void> fetchWeekCalories() async {
-    List<HealthDataPoint> gotCalories = [];
-    double sum = 0.0;
-
-    //HealthFactory health = HealthFactory();
-
-    // get steps for today (i.e., since midnight)
-    final now = DateTime.now();
-    final midnight = DateTime(now.year, now.month, now.day);
-    final weekBegin = midnight.subtract(Duration(days: midnight.weekday - 1));
-
-    final types = [HealthDataType.ACTIVE_ENERGY_BURNED];
-
-    bool requested = await widget.health
-        .requestAuthorization([HealthDataType.ACTIVE_ENERGY_BURNED]);
-
-    if (requested) {
-      try {
-        gotCalories =
-            await widget.health.getHealthDataFromTypes(weekBegin, now, types);
-      } catch (error) {
-        print("Caught exception in getHealthDataTypes: $error");
-      }
-
-      gotCalories = HealthFactory.removeDuplicates(gotCalories);
-
-      // print the results
-      //gotDistance.forEach((x) => print(x.value));
-      gotCalories.forEach((x) => sum += double.parse(x.value.toString()));
-
-      setState(() {
-        weekCalories = sum;
-      });
-    } else {
-      print("Authorization not granted - error in authorization");
-    }
   }
 }
