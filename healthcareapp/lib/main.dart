@@ -14,6 +14,8 @@ import 'package:healthcareapp/pages/life-params/TemperaturePage.dart';
 import 'package:healthcareapp/pages/life-params/add/AddBloodPressure.dart';
 import 'package:healthcareapp/pages/life-params/add/AddPulse.dart';
 import 'package:healthcareapp/pages/life-params/add/AddTemperature.dart';
+import 'package:healthcareapp/pages/sleep/SleepPage.dart';
+import 'package:healthcareapp/pages/sleep/add/AddSleep.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'dart:async';
 
@@ -91,7 +93,13 @@ class MyApp extends StatelessWidget {
         '/blood-pressure': (context) =>
             BloodPressurePage(health: HealthFactory()),
         '/add-blood-pressure': (context) =>
+<<<<<<< HEAD
             AddBloodPressurePage(health: HealthFactory()),
+=======
+            AddBloodPressurePage(health: healthFactory),
+        '/sleep': (context) => SleepPage(health: healthFactory),
+        '/add-sleep': (context) => AddSleepPage(health: healthFactory),
+>>>>>>> sleep
       },
       initialRoute: '/details',
     );
