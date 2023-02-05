@@ -16,12 +16,13 @@ class BottomNavigation extends StatelessWidget {
             children: [
               GestureDetector(
                   onTap: () {
-                    Navigator.of(context).pushNamed('/activity-page');
+                    Navigator.of(context)
+                        .pushReplacementNamed('/activity-page');
                   },
                   child: const Icon(Icons.analytics)),
               GestureDetector(
                   onTap: () {
-                    Navigator.of(context).pushNamed('/life-params');
+                    Navigator.of(context).pushReplacementNamed('/life-params');
                   },
                   child: const Icon(Icons.health_and_safety)),
               Transform.translate(
@@ -48,12 +49,12 @@ class BottomNavigation extends StatelessWidget {
               ),
               GestureDetector(
                   onTap: () {
-                    Navigator.of(context).pushNamed('/sleep');
+                    Navigator.of(context).pushReplacementNamed('/sleep');
                   },
                   child: const Icon(Icons.bedtime)),
               GestureDetector(
                   onTap: () {
-                    Navigator.of(context).pushNamed('/bmi');
+                    Navigator.of(context).pushReplacementNamed('/bmi');
                   },
                   child: const Icon(Icons.monitor_weight)),
             ],
