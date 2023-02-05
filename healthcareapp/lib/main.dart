@@ -93,13 +93,9 @@ class MyApp extends StatelessWidget {
         '/blood-pressure': (context) =>
             BloodPressurePage(health: HealthFactory()),
         '/add-blood-pressure': (context) =>
-<<<<<<< HEAD
             AddBloodPressurePage(health: HealthFactory()),
-=======
-            AddBloodPressurePage(health: healthFactory),
-        '/sleep': (context) => SleepPage(health: healthFactory),
-        '/add-sleep': (context) => AddSleepPage(health: healthFactory),
->>>>>>> sleep
+        '/sleep': (context) => SleepPage(health: HealthFactory()),
+        '/add-sleep': (context) => AddSleepPage(health: HealthFactory()),
       },
       initialRoute: '/details',
     );
