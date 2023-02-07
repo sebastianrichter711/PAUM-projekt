@@ -190,7 +190,8 @@ class _SleepDataState extends State<SleepData> {
               ((minutes / 60) - (minutes / 60).truncate()).toStringAsFixed(2));
           var hoursToSave = hours.toDouble() + partOfHour;
           // sleep = result / double.parse(gotSleep.length.toString());
-          Point newPoint = Point(x: j.toDouble(), y: hoursToSave);
+          Point newPoint = Point(
+              x: j.toDouble(), y: double.parse(hoursToSave.toStringAsFixed(1)));
           listOfPoints.add(newPoint);
           print("Day:  $j  Sleep:  $hoursToSave:$minutes");
           j += 1;

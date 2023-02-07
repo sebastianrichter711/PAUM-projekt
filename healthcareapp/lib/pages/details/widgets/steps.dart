@@ -64,7 +64,7 @@ class _StepsWidgetState extends State<StepsWidget> {
         print("Caught exception in getTotalStepsInInterval: $error");
       }
 
-      print('Total number of steps: $numberOfSteps');
+      //print('Total number of steps: $numberOfSteps');
 
       numberOfSteps = (numberOfSteps == null) ? 0 : numberOfSteps;
       setState(() {

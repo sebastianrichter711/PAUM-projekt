@@ -345,7 +345,7 @@ class _AddSleepState extends State<AddSleep> {
     print("Sleep START: $sleepStartDateTime");
     print("Sleep END: $sleepEndDateTime");
     bool success = await widget.health.writeHealthData(sleepLengthMinutes,
-        HealthDataType.SLEEP_ASLEEP, sleepStartDateTime, sleepEndDateTime);
+        HealthDataType.SLEEP_AWAKE, sleepStartDateTime, sleepEndDateTime);
     print("Sleep added: $sleepLengthMinutes");
     if (success == true) {
       print("TAK");

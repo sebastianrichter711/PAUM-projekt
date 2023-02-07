@@ -155,8 +155,9 @@ class _PulseDataState extends State<PulseData> {
           j += 1;
         } else {
           gotPulse.forEach((x) => result += double.parse(x.value.toString()));
-          pulse = result / double.parse(gotPulse.length.toString());
-          listOfPoints.add(Point(x: j.toDouble(), y: pulse));
+          pulse = (result / double.parse(gotPulse.length.toStringAsFixed(2)));
+          listOfPoints.add(Point(
+              x: j.toDouble(), y: double.parse(pulse.toStringAsFixed(2))));
           j += 1;
         }
       }

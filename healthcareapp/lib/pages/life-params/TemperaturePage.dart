@@ -168,8 +168,11 @@ class _TemperatureDataState extends State<TemperatureData> {
         } else {
           gotTemperature
               .forEach((x) => result += double.parse(x.value.toString()));
-          temperature = result / double.parse(gotTemperature.length.toString());
-          listOfPoints.add(Point(x: j.toDouble(), y: temperature));
+          temperature =
+              result / double.parse(gotTemperature.length.toStringAsFixed(2));
+          listOfPoints.add(Point(
+              x: j.toDouble(),
+              y: double.parse(temperature.toStringAsFixed(1))));
           j += 1;
         }
       }

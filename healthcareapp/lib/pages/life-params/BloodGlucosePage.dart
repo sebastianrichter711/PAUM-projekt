@@ -162,7 +162,9 @@ class _BloodGlucoseDataState extends State<BloodGlucoseData> {
             .forEach((x) => result += double.parse(x.value.toString()));
         bloodGlucose = result / double.parse(gotBloodGlucose.length.toString());
         //print("Day $j  Glucose $bloodGlucose");
-        listOfPoints.add(Point(x: j.toDouble(), y: bloodGlucose * 0.0555));
+        listOfPoints.add(Point(
+            x: j.toDouble(),
+            y: double.parse((bloodGlucose * 0.0555).toStringAsFixed(2))));
         j += 1;
       }
     }
