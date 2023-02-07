@@ -42,12 +42,11 @@ class _StatsWidgetState extends State<StatsWidget> {
                     fontSize: 14,
                     fontWeight: FontWeight.w800,
                   )),
-              SizedBox(width: 8),
+              SizedBox(width: 5),
               Icon(Icons.pie_chart_rounded, size: 15, color: Color(0xff3bc6fa))
             ],
           ),
         ),
-        const SizedBox(height: 15),
         SingleChildScrollView(
             scrollDirection: Axis.horizontal,
             child: Row(
