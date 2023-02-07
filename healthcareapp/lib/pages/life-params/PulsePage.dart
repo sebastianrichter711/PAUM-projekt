@@ -80,7 +80,7 @@ class _PulseDataState extends State<PulseData> {
       String title, String subtitle, IconData icon, Color color, double width) {
     return GestureDetector(
         onTap: () {
-          Navigator.of(context).pushNamed('/add-pulse');
+          Navigator.of(context).pushReplacementNamed('/add-pulse');
         },
         child: Container(
             width: width,

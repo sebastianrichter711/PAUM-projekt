@@ -112,7 +112,7 @@ class _AddBloodPressureState extends State<AddBloodPressure> {
                                                 child: Text("OK"),
                                                 onPressed: () =>
                                                     Navigator.of(context)
-                                                        .pushNamed(
+                                                        .pushReplacementNamed(
                                                             "/blood-pressure"),
                                               )
                                             ]));

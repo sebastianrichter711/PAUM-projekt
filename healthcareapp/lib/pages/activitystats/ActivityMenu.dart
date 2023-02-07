@@ -82,7 +82,7 @@ class ActivityMenu extends StatelessWidget {
     }
     return GestureDetector(
         onTap: () {
-          Navigator.of(context).pushNamed(nextPage);
+          Navigator.of(context).pushReplacementNamed(nextPage);
         },
         child: Container(
             width: width,

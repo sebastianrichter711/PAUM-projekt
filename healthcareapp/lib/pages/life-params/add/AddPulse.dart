@@ -94,7 +94,8 @@ class _AddPulseState extends State<AddPulse> {
                                                 child: Text("OK"),
                                                 onPressed: () =>
                                                     Navigator.of(context)
-                                                        .pushNamed("/pulse"),
+                                                        .pushReplacementNamed(
+                                                            "/pulse"),
                                               )
                                             ]));
                               } else {

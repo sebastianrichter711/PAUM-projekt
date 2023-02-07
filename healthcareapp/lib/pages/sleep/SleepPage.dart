@@ -80,7 +80,7 @@ class _SleepDataState extends State<SleepData> {
       String title, String subtitle, IconData icon, Color color, double width) {
     return GestureDetector(
         onTap: () {
-          Navigator.of(context).pushNamed('/add-sleep');
+          Navigator.of(context).pushReplacementNamed('/add-sleep');
         },
         child: Container(
             width: width,

@@ -86,7 +86,7 @@ class _BloodPressureDataState extends State<BloodPressureData> {
       String title, String subtitle, IconData icon, Color color, double width) {
     return GestureDetector(
         onTap: () {
-          Navigator.of(context).pushNamed('/add-blood-pressure');
+          Navigator.of(context).pushReplacementNamed('/add-blood-pressure');
         },
         child: Container(
             width: width,

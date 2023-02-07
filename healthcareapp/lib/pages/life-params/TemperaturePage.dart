@@ -83,7 +83,7 @@ class _TemperatureDataState extends State<TemperatureData> {
       String title, String subtitle, IconData icon, Color color, double width) {
     return GestureDetector(
         onTap: () {
-          Navigator.of(context).pushNamed('/add-body-temperature');
+          Navigator.of(context).pushReplacementNamed('/add-body-temperature');
         },
         child: Container(
             width: width,

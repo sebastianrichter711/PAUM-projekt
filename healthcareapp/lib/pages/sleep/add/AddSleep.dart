@@ -276,7 +276,8 @@ class _AddSleepState extends State<AddSleep> {
                                                 child: Text("OK"),
                                                 onPressed: () =>
                                                     Navigator.of(context)
-                                                        .pushNamed("/sleep"),
+                                                        .pushReplacementNamed(
+                                                            "/sleep"),
                                               )
                                             ]));
                               } else {

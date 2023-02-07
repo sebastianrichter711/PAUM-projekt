@@ -96,7 +96,7 @@ class _AddTemperatureState extends State<AddTemperature> {
                                                 child: Text("OK"),
                                                 onPressed: () => Navigator.of(
                                                         context)
-                                                    .pushNamed(
+                                                    .pushReplacementNamed(
                                                         "/body-temperature"),
                                               )
                                             ]));
