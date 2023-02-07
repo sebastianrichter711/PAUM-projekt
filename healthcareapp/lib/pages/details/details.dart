@@ -60,43 +60,30 @@ class _DetailsPageStatefulState extends State<DetailsPageStateful> {
     List<Point> listOfSteps = [];
     int? steps = 0;
 
-    //HealthFactory health = HealthFactory();
-
-    // get steps for today (i.e., since midnight)
     final now = DateTime.now();
     DateTime midnight = DateTime(now.year, now.month, now.day);
 
-    bool requested =
-        await widget.health.requestAuthorization([HealthDataType.STEPS]);
-
-    if (requested) {
-      int j = 0;
-      for (int i = 6; i >= 0; i--) {
-        DateTime startDate;
-        DateTime endDate;
-        if (i != 0) {
-          startDate = midnight.subtract(Duration(days: i));
-          endDate = midnight.subtract(Duration(days: i - 1));
-        } else {
-          startDate = midnight;
-          endDate = DateTime.now();
-        }
-        try {
-          steps =
-              await widget.health.getTotalStepsInInterval(startDate, endDate);
-        } catch (error) {
-          print("Caught exception in getTotalStepsInInterval: $error");
-        }
-        Point newPoint = Point(x: j.toDouble(), y: steps!.toDouble());
-        listOfSteps.add(newPoint);
-        print("Day:  $j  Steps:  $steps");
-        j += 1;
+    int j = 0;
+    for (int i = 6; i >= 0; i--) {
+      DateTime startDate;
+      DateTime endDate;
+      if (i != 0) {
+        startDate = midnight.subtract(Duration(days: i));
+        endDate = midnight.subtract(Duration(days: i - 1));
+      } else {
+        startDate = midnight;
+        endDate = DateTime.now();
       }
-      setState(() {
-        pointsToChart = listOfSteps;
-      });
-    } else {
-      print("Authorization not granted - error in authorization");
+      try {
+        steps = await widget.health.getTotalStepsInInterval(startDate, endDate);
+      } catch (error) {
+        print("Caught exception in getTotalStepsInInterval: $error");
+      }
+      listOfSteps.add(Point(x: j.toDouble(), y: steps!.toDouble()));
+      j += 1;
     }
+    setState(() {
+      pointsToChart = listOfSteps;
+    });
   }
 }

@@ -66,8 +66,8 @@ class _LifeParamsListState extends State<LifeParamsList> {
           children: [
             modeButton("Tętno", "", Icons.favorite_outline, Color(0xFF008000),
                 width, 24),
-            modeButton("Ciśnienie krwi", "", Icons.bloodtype, Color(0xFF008000),
-                width, 24),
+            modeButton("Glukoza we krwi", "", Icons.bloodtype,
+                Color(0xFF008000), width, 24),
             modeButton("Temperatura ciała", "ciała", Icons.device_thermostat,
                 Color(0xFF008000), width, 20),
           ],
@@ -95,8 +95,8 @@ class _LifeParamsListState extends State<LifeParamsList> {
       case "Tętno":
         nextPage = '/pulse';
         break;
-      case "Ciśnienie krwi":
-        nextPage = '/blood-pressure';
+      case "Glukoza we krwi":
+        nextPage = '/blood-glucose';
         break;
       case "Temperatura ciała":
         nextPage = '/body-temperature';
@@ -138,34 +138,4 @@ class _LifeParamsListState extends State<LifeParamsList> {
                   )
                 ])));
   }
-
-  // Future fetchStepData() async {
-  //   int? steps;
-
-  //   // get steps for today (i.e., since midnight)
-  //   final now = DateTime.now();
-  //   final midnight = DateTime(now.year, now.month, now.day);
-
-  //   bool requested = await widget.health
-  //       .requestAuthorization([HealthWorkoutActivityType.WALKING]);
-
-  //   List<HealthWorkoutActivityType> types = [HealthWorkoutActivityType.WALKING];
-  //   if (requested) {
-  //     try {
-  //       await widget.health.getHealthDataFromTypes(midnight, now, types);
-  //     } catch (error) {
-  //       print("Caught exception in getTotalStepsInInterval: $error");
-  //     }
-
-  //     print('Total number of steps: $steps');
-
-  //     setState(() {
-  //       _nofSteps = (steps == null) ? 0 : steps;
-  //       _state = (steps == null) ? AppState.NO_DATA : AppState.STEPS_READY;
-  //     });
-  //   } else {
-  //     print("Authorization not granted - error in authorization");
-  //     setState(() => _state = AppState.DATA_NOT_FETCHED);
-  //   }
-  // }
 }

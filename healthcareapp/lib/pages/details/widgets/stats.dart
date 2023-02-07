@@ -23,14 +23,14 @@ class StatsWidget extends StatefulWidget {
 
 class _StatsWidgetState extends State<StatsWidget> {
   double temperature = 0.0;
-  String bloodPressure = "";
+  String bloodGlucose = "";
   String pulse = "";
   HealthFactory health = HealthFactory();
   @override
   Widget build(BuildContext context) {
     fetchBodyTemperature(health);
     fetchPulse(health);
-    fetchBloodPressure(health);
+    fetchBloodGlucose(health);
     return Column(
       children: [
         Padding(
@@ -74,8 +74,8 @@ class _StatsWidgetState extends State<StatsWidget> {
                   iconColor: Color(0xffd3b50f),
                   iconBackground: Color(0xfffb4be4),
                   time: '+5s',
-                  label: 'Ciśnienie krwi',
-                  value: bloodPressure + ' mmHg',
+                  label: 'Glukoza we krwi',
+                  value: bloodGlucose + ' mmol/L',
                 ),
                 SizedBox(width: 30),
               ],
@@ -120,8 +120,6 @@ class _StatsWidgetState extends State<StatsWidget> {
   Future<void> fetchPulse(HealthFactory health) async {
     List<HealthDataPoint> gotPulse = [];
 
-    //HealthFactory health = HealthFactory();
-
     // get steps for today (i.e., since midnight)
     final now = DateTime.now();
     final midnight = DateTime(2022, 11, 1);
@@ -149,68 +147,37 @@ class _StatsWidgetState extends State<StatsWidget> {
     }
   }
 
-  Future<void> fetchBloodPressure(HealthFactory health) async {
-    List<HealthDataPoint> gotSystolicBloodPressure = [];
-    List<HealthDataPoint> gotDiastolicBloodPressure = [];
-
-    String systolicBloodPressure = "";
-    String diastolicBloodPressure = "";
-
-    //HealthFactory health = HealthFactory();
+  Future<void> fetchBloodGlucose(HealthFactory health) async {
+    List<HealthDataPoint> gotGlucose = [];
 
     // get steps for today (i.e., since midnight)
     final now = DateTime.now();
     final midnight = DateTime(2022, 11, 1);
 
-    List<HealthDataType> types = [HealthDataType.BLOOD_PRESSURE_SYSTOLIC];
+    final types = [HealthDataType.BLOOD_GLUCOSE];
 
-    bool requested = await health
-        .requestAuthorization([HealthDataType.BLOOD_PRESSURE_SYSTOLIC]);
+    bool requested =
+        await health.requestAuthorization([HealthDataType.BLOOD_GLUCOSE]);
 
     if (requested) {
       try {
-        gotSystolicBloodPressure =
-            await health.getHealthDataFromTypes(midnight, now, types);
+        gotGlucose = await health.getHealthDataFromTypes(midnight, now, types);
       } catch (error) {
         print("Caught exception in getHealthDataTypes: $error");
       }
 
-      print('Temperature data: $gotSystolicBloodPressure');
+      //print('Temperature data: $gotPulse');
+      gotGlucose.forEach((x) => print(x.value));
 
-      systolicBloodPressure =
-          gotSystolicBloodPressure[gotSystolicBloodPressure.length - 1]
-              .value
-              .toString();
+      setState(() {
+        bloodGlucose =
+            (double.parse(gotGlucose[gotGlucose.length - 1].value.toString()) *
+                    0.0555)
+                .toStringAsFixed(2);
+      });
     } else {
       print("Authorization not granted - error in authorization");
     }
-
-    types = [HealthDataType.BLOOD_PRESSURE_DIASTOLIC];
-
-    requested = await health
-        .requestAuthorization([HealthDataType.BLOOD_PRESSURE_DIASTOLIC]);
-
-    if (requested) {
-      try {
-        gotDiastolicBloodPressure =
-            await health.getHealthDataFromTypes(midnight, now, types);
-      } catch (error) {
-        print("Caught exception in getHealthDataTypes: $error");
-      }
-
-      print('Temperature data: $gotDiastolicBloodPressure');
-
-      diastolicBloodPressure =
-          gotDiastolicBloodPressure[gotDiastolicBloodPressure.length - 1]
-              .value
-              .toString();
-    } else {
-      print("Authorization not granted - error in authorization");
-    }
-
-    setState(() {
-      bloodPressure = systolicBloodPressure + "/" + diastolicBloodPressure;
-    });
   }
 }
 

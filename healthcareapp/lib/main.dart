@@ -7,11 +7,11 @@ import 'package:healthcareapp/pages/activitystats/StepsPage.dart';
 import 'package:healthcareapp/pages/details/details.dart';
 import 'package:healthcareapp/pages/home/home.dart';
 import 'package:health/health.dart';
-import 'package:healthcareapp/pages/life-params/BloodPressurePage.dart';
+import 'package:healthcareapp/pages/life-params/BloodGlucosePage.dart';
 import 'package:healthcareapp/pages/life-params/LifeParamsPage.dart';
 import 'package:healthcareapp/pages/life-params/PulsePage.dart';
 import 'package:healthcareapp/pages/life-params/TemperaturePage.dart';
-import 'package:healthcareapp/pages/life-params/add/AddBloodPressure.dart';
+import 'package:healthcareapp/pages/life-params/add/AddBloodGlucose.dart';
 import 'package:healthcareapp/pages/life-params/add/AddPulse.dart';
 import 'package:healthcareapp/pages/life-params/add/AddTemperature.dart';
 import 'package:healthcareapp/pages/sleep/SleepPage.dart';
@@ -94,10 +94,10 @@ class MyApp extends StatelessWidget {
             TemperaturePage(health: HealthFactory()),
         '/add-body-temperature': (context) =>
             AddTemperaturePage(health: HealthFactory()),
-        '/blood-pressure': (context) =>
-            BloodPressurePage(health: HealthFactory()),
-        '/add-blood-pressure': (context) =>
-            AddBloodPressurePage(health: HealthFactory()),
+        '/blood-glucose': (context) =>
+            BloodGlucosePage(health: HealthFactory()),
+        '/add-blood-glucose': (context) =>
+            AddBloodGlucosePage(health: HealthFactory()),
         '/sleep': (context) => SleepPage(health: HealthFactory()),
         '/add-sleep': (context) => AddSleepPage(health: HealthFactory()),
       },

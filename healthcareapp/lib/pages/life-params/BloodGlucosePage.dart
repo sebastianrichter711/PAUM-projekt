@@ -1,38 +1,39 @@
 import 'package:flutter/material.dart';
 
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:healthcareapp/pages/details/widgets/chart/lineChart.dart';
 import 'package:healthcareapp/widgets/bottom_navigation.dart';
 import 'package:health/health.dart';
 
-class StepsPage extends StatelessWidget {
-  const StepsPage({super.key});
+class BloodGlucosePage extends StatelessWidget {
+  final HealthFactory health;
+  const BloodGlucosePage({super.key, required this.health});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
-        children: const [StepsPageWidget(), BottomNavigation()],
+        children: [BloodGlucoseData(health: health), BottomNavigation()],
       ),
     );
   }
 }
 
-class StepsPageWidget extends StatefulWidget {
-  const StepsPageWidget({super.key});
+class BloodGlucoseData extends StatefulWidget {
+  final HealthFactory health;
+  BloodGlucoseData({super.key, required this.health});
 
   @override
-  State<StepsPageWidget> createState() => _StepsPageWidgetState();
+  State<BloodGlucoseData> createState() => _BloodGlucoseDataState();
 }
 
-class _StepsPageWidgetState extends State<StepsPageWidget> {
-  int todaySteps = 0;
-  int weekSteps = 0;
-  double avgWeekSteps = 0.0;
+class _BloodGlucoseDataState extends State<BloodGlucoseData> {
   int weekday = DateTime.now().weekday;
+  List<Point> bloodGlucosePoints = [];
+
   @override
   Widget build(BuildContext context) {
-    fetchTodaySteps();
-    fetchWeekSteps();
+    fetchBloodGlucoseWeek();
     double width = MediaQuery.of(context).size.width - 60;
     return Expanded(
         child: Center(
@@ -40,30 +41,24 @@ class _StepsPageWidgetState extends State<StepsPageWidget> {
       padding: const EdgeInsets.fromLTRB(0, 40, 0, 20),
       child:
           Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-        Column(children: [
+        Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           Text(
-            'Kroki',
+            'Poziom glukozy',
             style: TextStyle(
               fontFamily: 'Manrope',
               fontWeight: FontWeight.bold,
-              fontSize: 42,
+              fontSize: 32,
               decoration: TextDecoration.none,
             ),
           ),
         ]),
+        SizedBox(height: 20),
+        LineChartWidget(health: widget.health, points: bloodGlucosePoints),
         Wrap(
           runSpacing: 16,
           children: [
-            modeButton(todaySteps.toString(), 'Dzisiejsza liczba kroków',
-                FontAwesomeIcons.calendarDay, Color(0xFFFE7F00), width),
-            modeButton(weekSteps.toString(), 'Liczba kroków w tym tygodniu',
-                FontAwesomeIcons.calendarWeek, Color(0xFFFE7F00), width),
-            modeButton(
-                avgWeekSteps.toStringAsFixed(1),
-                'Średnia liczba kroków/dzień',
-                FontAwesomeIcons.calendarWeek,
-                Color(0xFFFE7F00),
-                width),
+            modeButton("Dodaj pomiar", 'Spalone kalorie dziś [Cal]', Icons.add,
+                Color(0xFF008000), width),
           ],
         )
       ]),
@@ -85,6 +80,9 @@ class _StepsPageWidgetState extends State<StepsPageWidget> {
   GestureDetector modeButton(
       String title, String subtitle, IconData icon, Color color, double width) {
     return GestureDetector(
+        onTap: () {
+          Navigator.of(context).pushReplacementNamed('/add-blood-glucose');
+        },
         child: Container(
             width: width,
             decoration: BoxDecoration(
@@ -107,15 +105,6 @@ class _StepsPageWidgetState extends State<StepsPageWidget> {
                               color: Colors.white,
                               fontSize: 24,
                             )),
-                        Padding(
-                            padding: const EdgeInsets.only(top: 6.0),
-                            child: Text(subtitle,
-                                style: TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    decoration: TextDecoration.none,
-                                    fontFamily: 'Manrope',
-                                    color: Colors.white,
-                                    fontSize: 12)))
                       ],
                     ),
                   ),
@@ -127,47 +116,49 @@ class _StepsPageWidgetState extends State<StepsPageWidget> {
                 ])));
   }
 
-  Future<void> fetchWeekSteps() async {
-    int? numberOfSteps;
+  Future<void> fetchBloodGlucoseWeek() async {
+    List<HealthDataPoint> gotBloodGlucose = [];
+    List<Point> listOfPoints = [];
+    double? bloodGlucose = 0;
+    double result = 0.0;
 
     final now = DateTime.now();
-    final midnight = DateTime(now.year, now.month, now.day);
-    final weekBegin = midnight.subtract(Duration(days: midnight.weekday - 1));
+    DateTime midnight = DateTime(now.year, now.month, now.day);
 
-    HealthFactory health = HealthFactory();
+    int j = 0;
+    for (int i = 6; i >= 0; i--) {
+      result = 0.0;
+      DateTime startDate;
+      DateTime endDate;
+      if (i != 0) {
+        startDate = midnight.subtract(Duration(days: i));
+        endDate = midnight.subtract(Duration(days: i - 1));
+      } else {
+        startDate = midnight;
+        endDate = DateTime.now();
+      }
+      try {
+        gotBloodGlucose = await widget.health.getHealthDataFromTypes(
+            startDate, endDate, [HealthDataType.BLOOD_GLUCOSE]);
+      } catch (error) {
+        print("Caught exception in gotPulse: $error");
+      }
 
-    try {
-      numberOfSteps = await health.getTotalStepsInInterval(weekBegin, now);
-    } catch (error) {
-      print("Caught exception in getTotalStepsInInterval: $error");
+      gotBloodGlucose = HealthFactory.removeDuplicates(gotBloodGlucose);
+      if (gotBloodGlucose.length == 0) {
+        listOfPoints.add(Point(x: j.toDouble(), y: 0.0));
+        j += 1;
+      } else {
+        gotBloodGlucose
+            .forEach((x) => result += double.parse(x.value.toString()));
+        bloodGlucose = result / double.parse(gotBloodGlucose.length.toString());
+        print("Day $j  Glucose $bloodGlucose");
+        listOfPoints.add(Point(x: j.toDouble(), y: bloodGlucose * 0.0555));
+        j += 1;
+      }
     }
-
-    numberOfSteps = (numberOfSteps == null) ? 0 : numberOfSteps;
     setState(() {
-      weekSteps = numberOfSteps!;
-      avgWeekSteps = (weekSteps / weekday);
-    });
-  }
-
-  Future<void> fetchTodaySteps() async {
-    int? numberOfSteps;
-
-    HealthFactory health = HealthFactory();
-
-    final now = DateTime.now();
-    final midnight = DateTime(now.year, now.month, now.day);
-
-    try {
-      numberOfSteps = await health.getTotalStepsInInterval(midnight, now);
-    } catch (error) {
-      print("Caught exception in getTotalStepsInInterval: $error");
-    }
-
-    print('Total number of steps: $numberOfSteps');
-
-    numberOfSteps = (numberOfSteps == null) ? 0 : numberOfSteps;
-    setState(() {
-      todaySteps = numberOfSteps!;
+      bloodGlucosePoints = listOfPoints;
     });
   }
 }

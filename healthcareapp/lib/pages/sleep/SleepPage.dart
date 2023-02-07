@@ -42,7 +42,7 @@ class _SleepDataState extends State<SleepData> {
           Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
         Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           Text(
-            'Sen',
+            'Długość snu [h]',
             style: TextStyle(
               fontFamily: 'Manrope',
               fontWeight: FontWeight.bold,
