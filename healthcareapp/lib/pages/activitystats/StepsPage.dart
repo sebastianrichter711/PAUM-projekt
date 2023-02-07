@@ -150,7 +150,7 @@ class _StepsPageWidgetState extends State<StepsPageWidget> {
   }
 
   Future<void> fetchTodaySteps() async {
-    int? numberOfSteps;
+    int? numberOfSteps = 0;
 
     HealthFactory health = HealthFactory();
 
@@ -163,9 +163,9 @@ class _StepsPageWidgetState extends State<StepsPageWidget> {
       print("Caught exception in getTotalStepsInInterval: $error");
     }
 
-    print('Total number of steps: $numberOfSteps');
+    //print('Total number of steps: $numberOfSteps');
 
-    numberOfSteps = (numberOfSteps == null) ? 0 : numberOfSteps;
+    //numberOfSteps = (numberOfSteps == null) ? 0 : numberOfSteps;
     setState(() {
       todaySteps = numberOfSteps!;
     });

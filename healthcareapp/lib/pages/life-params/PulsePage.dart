@@ -42,7 +42,7 @@ class _PulseDataState extends State<PulseData> {
           Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
         Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           Text(
-            'Tętno',
+            'Tętno [bpm]',
             style: TextStyle(
               fontFamily: 'Manrope',
               fontWeight: FontWeight.bold,
@@ -151,16 +151,12 @@ class _PulseDataState extends State<PulseData> {
 
         gotPulse = HealthFactory.removeDuplicates(gotPulse);
         if (gotPulse.length == 0) {
-          Point newPoint = Point(x: j.toDouble(), y: 0.0);
-          listOfPoints.add(newPoint);
-          print("Day:  $j  Pulse:  $pulse");
+          listOfPoints.add(Point(x: j.toDouble(), y: 0.0));
           j += 1;
         } else {
           gotPulse.forEach((x) => result += double.parse(x.value.toString()));
           pulse = result / double.parse(gotPulse.length.toString());
-          Point newPoint = Point(x: j.toDouble(), y: pulse);
-          listOfPoints.add(newPoint);
-          print("Day:  $j  Pulse:  $pulse");
+          listOfPoints.add(Point(x: j.toDouble(), y: pulse));
           j += 1;
         }
       }

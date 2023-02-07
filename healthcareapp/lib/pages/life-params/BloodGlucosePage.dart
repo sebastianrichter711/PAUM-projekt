@@ -51,6 +51,15 @@ class _BloodGlucoseDataState extends State<BloodGlucoseData> {
               decoration: TextDecoration.none,
             ),
           ),
+          Text(
+            'we krwi [mmol/L]',
+            style: TextStyle(
+              fontFamily: 'Manrope',
+              fontWeight: FontWeight.bold,
+              fontSize: 32,
+              decoration: TextDecoration.none,
+            ),
+          ),
         ]),
         SizedBox(height: 20),
         LineChartWidget(health: widget.health, points: bloodGlucosePoints),
@@ -152,7 +161,7 @@ class _BloodGlucoseDataState extends State<BloodGlucoseData> {
         gotBloodGlucose
             .forEach((x) => result += double.parse(x.value.toString()));
         bloodGlucose = result / double.parse(gotBloodGlucose.length.toString());
-        print("Day $j  Glucose $bloodGlucose");
+        //print("Day $j  Glucose $bloodGlucose");
         listOfPoints.add(Point(x: j.toDouble(), y: bloodGlucose * 0.0555));
         j += 1;
       }

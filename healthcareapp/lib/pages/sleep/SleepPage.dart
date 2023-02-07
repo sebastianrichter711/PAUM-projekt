@@ -161,7 +161,7 @@ class _SleepDataState extends State<SleepData> {
         if (gotSleep.length == 0) {
           Point newPoint = Point(x: j.toDouble(), y: 0.0);
           listOfPoints.add(newPoint);
-          print("Day:  $j  Sleep:  $sleep");
+          //print("Day:  $j  Sleep:  $sleep");
           j += 1;
         } else {
           gotSleep.forEach((x) {

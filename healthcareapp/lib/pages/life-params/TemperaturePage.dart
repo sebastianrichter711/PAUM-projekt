@@ -45,7 +45,16 @@ class _TemperatureDataState extends State<TemperatureData> {
           Column(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
         Column(mainAxisAlignment: MainAxisAlignment.center, children: [
           Text(
-            'Temperatura ciała',
+            'Temperatura',
+            style: TextStyle(
+              fontFamily: 'Manrope',
+              fontWeight: FontWeight.bold,
+              fontSize: 42,
+              decoration: TextDecoration.none,
+            ),
+          ),
+          Text(
+            'ciała [℃]',
             style: TextStyle(
               fontFamily: 'Manrope',
               fontWeight: FontWeight.bold,
@@ -154,17 +163,13 @@ class _TemperatureDataState extends State<TemperatureData> {
 
         gotTemperature = HealthFactory.removeDuplicates(gotTemperature);
         if (gotTemperature.length == 0) {
-          Point newPoint = Point(x: j.toDouble(), y: 0.0);
-          listOfPoints.add(newPoint);
-          print("Day:  $j  Pulse:  $temperature");
+          listOfPoints.add(Point(x: j.toDouble(), y: 0.0));
           j += 1;
         } else {
           gotTemperature
               .forEach((x) => result += double.parse(x.value.toString()));
           temperature = result / double.parse(gotTemperature.length.toString());
-          Point newPoint = Point(x: j.toDouble(), y: temperature);
-          listOfPoints.add(newPoint);
-          print("Day:  $j  Pulse:  $temperature");
+          listOfPoints.add(Point(x: j.toDouble(), y: temperature));
           j += 1;
         }
       }

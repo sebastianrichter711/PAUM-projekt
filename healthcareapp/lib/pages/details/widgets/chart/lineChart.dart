@@ -36,6 +36,7 @@ class _LineChartDrawState extends State<LineChartDraw> {
     return SizedBox(
       height: double.infinity,
       child: LineChart(LineChartData(
+          minY: 0,
           titlesData: FlTitlesData(
             leftTitles: AxisTitles(
                 sideTitles: SideTitles(

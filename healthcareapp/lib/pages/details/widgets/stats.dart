@@ -137,7 +137,7 @@ class _StatsWidgetState extends State<StatsWidget> {
       }
 
       //print('Temperature data: $gotPulse');
-      gotPulse.forEach((x) => print(x.value));
+      //gotPulse.forEach((x) => print(x.value));
 
       setState(() {
         pulse = gotPulse[gotPulse.length - 1].value.toString();
@@ -167,7 +167,7 @@ class _StatsWidgetState extends State<StatsWidget> {
       }
 
       //print('Temperature data: $gotPulse');
-      gotGlucose.forEach((x) => print(x.value));
+      //gotGlucose.forEach((x) => print(x.value));
 
       setState(() {
         bloodGlucose =
