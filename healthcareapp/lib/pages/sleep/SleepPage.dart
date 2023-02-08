@@ -57,7 +57,7 @@ class _SleepDataState extends State<SleepData> {
           runSpacing: 16,
           children: [
             modeButton("Dodaj pomiar", 'Czas trwania snu', Icons.add,
-                Color(0xFF008000), width),
+                Colors.blue, width),
           ],
         )
       ]),
@@ -157,7 +157,10 @@ class _SleepDataState extends State<SleepData> {
           print("Caught exception in gotSleep: $error");
         }
 
+        print("Before filtering Day:  $j  Sleep:  $gotSleep");
         gotSleep = HealthFactory.removeDuplicates(gotSleep);
+        print("Day:  $j  Sleep:  $gotSleep");
+
         if (gotSleep.length == 0) {
           Point newPoint = Point(x: j.toDouble(), y: 0.0);
           listOfPoints.add(newPoint);

@@ -333,25 +333,31 @@ class _AddSleepState extends State<AddSleep> {
       return false;
     }
 
-    //final types = [HealthDataType.SLEEP_IN_BED];
+    final types = [HealthDataType.SLEEP_AWAKE];
     //final rights = [HealthDataAccess.WRITE];
-    //final permissions = [HealthDataAccess.READ_WRITE];
+    final permissions = [HealthDataAccess.WRITE];
 
     // bool? hasPermissions =
     //     await HealthFactory.hasPermissions(types, permissions: rights);
     // if (hasPermissions == false) {
     //   await widget.health.requestAuthorization(types, permissions: permissions);
     // }
-    print("Sleep START: $sleepStartDateTime");
-    print("Sleep END: $sleepEndDateTime");
-    bool success = await widget.health.writeHealthData(sleepLengthMinutes,
-        HealthDataType.SLEEP_AWAKE, sleepStartDateTime, sleepEndDateTime);
-    print("Sleep added: $sleepLengthMinutes");
-    if (success == true) {
-      print("TAK");
-      return true;
+    bool requested = await widget.health
+        .requestAuthorization(types, permissions: permissions);
+    if (requested) {
+      print("Sleep START: $sleepStartDateTime");
+      print("Sleep END: $sleepEndDateTime");
+      bool success = await widget.health.writeHealthData(sleepLengthMinutes,
+          HealthDataType.SLEEP_AWAKE, sleepStartDateTime, sleepEndDateTime);
+      print("Sleep added: $sleepLengthMinutes");
+      if (success == true) {
+        print("TAK");
+        return true;
+      } else {
+        print("NIE");
+        return false;
+      }
     } else {
-      print("NIE");
       return false;
     }
   }
