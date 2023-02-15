@@ -55,24 +55,25 @@ class _StepsWidgetState extends State<StepsWidget> {
     final now = DateTime.now();
     final midnight = DateTime(now.year, now.month, now.day);
 
-    bool requested = await health.requestAuthorization([HealthDataType.STEPS]);
+    //bool requested = await health.requestAuthorization([HealthDataType.STEPS]);
 
-    if (requested) {
-      try {
-        numberOfSteps = await health.getTotalStepsInInterval(midnight, now);
-      } catch (error) {
-        print("Caught exception in getTotalStepsInInterval: $error");
-      }
-
-      //print('Total number of steps: $numberOfSteps');
-
-      numberOfSteps = (numberOfSteps == null) ? 0 : numberOfSteps;
-      setState(() {
-        steps = numberOfSteps.toString();
-      });
-    } else {
-      print("Authorization not granted - error in authorization");
+    //if (requested) {
+    try {
+      numberOfSteps = await health.getTotalStepsInInterval(midnight, now);
+    } catch (error) {
+      print("Caught exception in getTotalStepsInInterval: $error");
+      numberOfSteps = 0;
     }
+
+    //print('Total number of steps: $numberOfSteps');
+
+    numberOfSteps = (numberOfSteps == null) ? 0 : numberOfSteps;
+    setState(() {
+      steps = numberOfSteps.toString();
+    });
+    //} else {
+    //  print("Authorization not granted - error in authorization");
+    //}
   }
 }
 
