@@ -51,13 +51,9 @@ class _StepsWidgetState extends State<StepsWidget> {
 
     HealthFactory health = HealthFactory();
 
-    // get steps for today (i.e., since midnight)
     final now = DateTime.now();
     final midnight = DateTime(now.year, now.month, now.day);
 
-    //bool requested = await health.requestAuthorization([HealthDataType.STEPS]);
-
-    //if (requested) {
     try {
       numberOfSteps = await health.getTotalStepsInInterval(midnight, now);
     } catch (error) {
@@ -65,15 +61,10 @@ class _StepsWidgetState extends State<StepsWidget> {
       numberOfSteps = 0;
     }
 
-    //print('Total number of steps: $numberOfSteps');
-
     numberOfSteps = (numberOfSteps == null) ? 0 : numberOfSteps;
     setState(() {
       steps = numberOfSteps.toString();
     });
-    //} else {
-    //  print("Authorization not granted - error in authorization");
-    //}
   }
 }
 
