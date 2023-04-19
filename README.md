@@ -4,11 +4,35 @@ Authors:
 - Piotr **SOROCIAK**
 - Sebastian **RICHTER**
 
-## Cel projektu
-Implementacja aplikacji mobilnej wspierającej zdrowy styl życia z wykorzystaniem śledzenia
-aktywności sportowej oraz parametrów życiowych jak np. poziom tętna, ciśnienie krwi,
-temperatura ciała, itp.
+## Project's aim
+Implementation of mobile app supporting healthy lifestyle with the use of tracking sports 
+activity and life parameters such as blood pressure, heart rate level, body temperature, etc.
 
-## Technologie
-- framework: Flutter (Dart)
-- środowisko: Visual Studio Code
+## Instruction of running the app
+1. Clone the repository - open the command line in a chosen directory in your laptop/PC and write a command:
+```js
+git clone <URL_to_repository>
+```
+You can copy a link to repository from the page of repo (click "Code" button and later copy a shown link).
+2. In a command line type:
+```js
+cd PAUM-projekt\healthcareapp
+```
+3. Connect a mobile device to your laptop/PC - make sure developer options in your mobile device are enabled and you allowed
+USB debugging.
+4. In a command line type:
+```js
+flutter run
+```
+
+## Technologies
+- framework: Flutter 3.3.8
+- programming language: Dart 2.18.4 (all installed Flutter's libraries in this project are listed in a file pubspec.yaml in "healthcareapp"
+directory (section "dependencies"))
+- IDE: Visual Studio Code 1.75.0
+- Android SDK 33.0.0
+- Fitness API
+
+## License
+
+Licensed under the [MIT License](LICENSE).
