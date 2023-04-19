@@ -14,6 +14,7 @@ activity and life parameters such as blood pressure, heart rate level, body temp
 git clone <URL_to_repository>
 ```
 You can copy a link to repository from the page of repo (click "Code" button and later copy a shown link).
+
 2. In a command line type:
 ```js
 cd PAUM-projekt\healthcareapp
