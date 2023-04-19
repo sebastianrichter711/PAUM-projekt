@@ -27,11 +27,18 @@ flutter run
 ```
 
 ## Available options in the app
-- Main widget: calendar, info about today's number of steps, plot presenting number of steps in the last week, stats presenting:
-number of calories burned today, distance walked today, today's cardio minutes and last measurements of: body temperature, blood glucose and heart rate
-- Track number of steps, calories and distance (stats for today, current week and showing average number of steps/calories and average distance per day in a current week)
-- Track life parameters: heart rate, blood glucose and body temperature (plots for each parameter presenting data from the past week with the option of adding a measurement)
-- Track length of sleep (plot presenting the length of sleep in the past week with the option of adding a measurement)
+- Main widget: 
+    - calendar,
+    - info about today's number of steps, 
+    - plot presenting number of steps in the last week, 
+    - stats presenting:
+        - number of calories burned today, 
+        - distance walked today, 
+        - today's cardio minutes,
+        - last measurements of: body temperature, blood glucose and heart rate.
+- Track number of steps, calories and distance (stats for today, current week and showing average number of steps/calories and average distance per day in a current week).
+- Track life parameters: heart rate, blood glucose and body temperature (plots for each parameter presenting data from the past week with the option of adding a measurement).
+- Track length of sleep (plot presenting the length of sleep in the past week with the option of adding a measurement).
 - BMI calcuator
 
 ## Technologies
