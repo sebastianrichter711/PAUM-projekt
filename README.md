@@ -1,6 +1,7 @@
-# Projektowanie Aplikacji dla Urządzeń Mobilnych - projekt
+# ![United Kingdom](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/gb.png "United Kingdom") Mobile App Design - project
+# ![Poland](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/pl.png "Poland") Projektowanie Aplikacji dla Urządzeń Mobilnych - projekt
 
-Autorzy: 
+Authors: 
 - Piotr **SOROCIAK**
 - Sebastian **RICHTER**
 
