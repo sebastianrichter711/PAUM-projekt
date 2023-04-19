@@ -1,4 +1,4 @@
-# ![United Kingdom](https://raw.githubusercontent.com/stevenrskelton/flag-icon/master/png/16/country-4x3/gb.png "United Kingdom") Mobile App Design (Projektowanie aplikacji dla urządzeń mobilnych) - project
+# Mobile App Design (Projektowanie aplikacji dla urządzeń mobilnych) - project
 
 Authors: 
 - Piotr **SOROCIAK**
@@ -48,6 +48,8 @@ directory (section "dependencies"))
 - IDE: Visual Studio Code 1.75.0
 - Android SDK 33.0.0
 - Fitness API
+
+It is recommend to use the app in a mobile device with Android 12 or higher.
 
 ## License
 
