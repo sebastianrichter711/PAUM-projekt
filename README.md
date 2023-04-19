@@ -8,7 +8,7 @@ Authors:
 Implementation of mobile app supporting healthy lifestyle with the use of tracking sports 
 activity and life parameters such as blood pressure, heart rate level, body temperature, etc.
 
-## Instruction of running the app
+## Instruction to launch the app
 1. Clone the repository - open the command line in a chosen directory in your laptop/PC and write a command:
 ```js
 git clone <URL_to_repository>
